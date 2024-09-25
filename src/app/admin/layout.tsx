@@ -2,7 +2,6 @@
 import { useUser } from "@/lib/auth"
 import { redirect } from "next/navigation";
 import { ReactNode } from "react"
-// import {GridLoader} from "react-spinners"
 
 export default function Layout({children}: {children: ReactNode}) {
       const user = useUser();
