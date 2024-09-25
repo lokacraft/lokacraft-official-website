@@ -35,8 +35,6 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import Sidebar from "@/components/material/admin/Sidebar"
 import Logo from '../../../../public/images/lokacraft-logo.png'
 import KanbanBoard from "@/components/material/admin/KanbanBoard"
-export const description =
-  "An products dashboard with a sidebar navigation. The sidebar has icon navigation. The content area has a breadcrumb and search in the header. It displays a list of products in a table with actions."
 
 export default function Dashboard() {
   return (

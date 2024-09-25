@@ -68,7 +68,6 @@ import Link from "next/link"
 import Image from "next/image"
 import Logo from '../../../../public/images/lokacraft-logo.png'
 
-export const description = "A collection of health charts."
 
 export default function Charts() {
   return (
