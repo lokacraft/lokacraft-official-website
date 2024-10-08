@@ -37,6 +37,7 @@ import {
     import Image from "next/image"
     import Logo from '../../../../public/images/lokacraft-logo.png'
 import { signOut } from '@/lib/auth'
+import { ModeToggle } from "../ThemeToggle"
 
 function Topbar() {
   return (
@@ -122,6 +123,7 @@ function Topbar() {
               className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[336px]"
             />
           </div>
+          <ModeToggle />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
@@ -147,6 +149,7 @@ function Topbar() {
               <DropdownMenuItem onClick={signOut}>Logout</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+
         </header>
   )
 }
