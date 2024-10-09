@@ -18,14 +18,6 @@ import {
 } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -44,7 +36,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   Table,
   TableBody,
@@ -75,8 +66,16 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { addDoc, collection, serverTimestamp } from "firebase/firestore"
+import { addDoc, collection, deleteDoc, doc, getDocs, query, serverTimestamp, where } from "firebase/firestore"
 import { db } from "../../../../firebase"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
 
 export default function Dashboard() {
   const {project} = useContext(LokacraftContext)
@@ -85,15 +84,53 @@ export default function Dashboard() {
   const [description, setDescription] = useState('');
   const [link, setLink] = useState('');
   const [status, setStatus] = useState('');
-  const [securityStatus, setSecurityStatus] = useState('');
-  const [domainStatus, setDomainStatus] = useState('');
+  const [type, setType] = useState('starter');
+  const [securityStatus, setSecurityStatus] = useState(false);
+  const [domainStatus, setDomainStatus] = useState(false);
+
+
+  // Generate a random 6-digit ID with "starter-xxxxxx" format
+  // const generateProjectId = () => {
+  //   const randomNumber = Math.floor(1000000 + Math.random() * 9000000); // 6 digit number
+  //   return `${type}-${randomNumber}`;
+  // }
+  const generateProjectId = () => {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let randomString = '';
+    
+    for (let i = 0; i < 12; i++) {
+      randomString += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    
+    return `${type}-${randomString}`;
+  };
+
+  const isProjectIdUnique = async (projectId: string) => {
+    const projectQuery = query(collection(db, "projects"), where("projectId", "==", projectId));
+    const querySnapshot = await getDocs(projectQuery);
+    return querySnapshot.empty; // true jika tidak ada projectId yang sama
+  };
+
+  const generateUniqueProjectId = async () => {
+    let newProjectId = generateProjectId();
+    let isUnique = await isProjectIdUnique(newProjectId);
+
+    while (!isUnique) {
+      newProjectId = generateProjectId(); // generate lagi jika tidak unik
+      isUnique = await isProjectIdUnique(newProjectId);
+    }
+
+    return newProjectId;
+  };
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    const newProjectId = await generateUniqueProjectId();
 
     try {
       await addDoc(collection(db, "projects"), {
-        projectId: projectId, // Default to null or remove this if not needed
+        projectId: newProjectId, // Default to null or remove this if not needed
+        type: type,
         name: name,
         description: description,
         status: status,
@@ -106,17 +143,28 @@ export default function Dashboard() {
       // Reset form values
       setProjectId('');
       setname('');
+      setType('starter');
       setDescription('');
       setLink('');
       setStatus('');
-      setSecurityStatus('');
-      setDomainStatus('');
+      setSecurityStatus(false);
+      setDomainStatus(false);
 
       console.log("Document successfully written!");
     } catch (error) {
       console.error("Error writing document: ", error);
     }
   };
+
+  // Function to handle deletion
+const handleDelete = async (id: string) => {
+  try {
+    await deleteDoc(doc(db, "projects", id)); // Delete document based on its Firestore ID
+    console.log("Document successfully deleted!");
+  } catch (error) {
+    console.error("Error deleting document: ", error);
+  }
+};
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
@@ -183,15 +231,20 @@ export default function Dashboard() {
         <div className="grid gap-4 py-4">
           {/* project id */}
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
-              project id
+            <Label htmlFor="type" className="text-right">
+              project type
             </Label>
-            <Input
-             type="text"
-             value={projectId}
-             onChange={(e) => setProjectId(e.target.value)}
-              className="col-span-3"
-            />
+            <select
+              id="type"
+              value={type}
+              onChange={(e) => setType(e.target.value)}
+              className="col-span-3 border rounded-md p-2"
+            >
+              <option value="starter">Starter</option>
+              <option value="business">Business</option>
+              <option value="custom">Custom</option>
+            </select>
+
           </div>
           {/* name */}
           <div className="grid grid-cols-4 items-center gap-4">
@@ -246,10 +299,10 @@ export default function Dashboard() {
             <Label htmlFor="name" className="text-right">
               securityStatus
             </Label>
-            <Input
-             type="text"
-             value={securityStatus}
-             onChange={(e) => setSecurityStatus(e.target.value)}
+            <input
+              type="checkbox"
+              checked={securityStatus}
+              onChange={(e) => setSecurityStatus(e.target.checked)}
               className="col-span-3"
             />
           </div>
@@ -258,10 +311,10 @@ export default function Dashboard() {
             <Label htmlFor="name" className="text-right">
               domainStatus
             </Label>
-            <Input
-             type="text"
-             value={domainStatus}
-             onChange={(e) => setDomainStatus(e.target.value)}
+            <input
+              type="checkbox"
+              checked={domainStatus}
+              onChange={(e) => setDomainStatus(e.target.checked)}
               className="col-span-3"
             />
           </div>
@@ -364,7 +417,7 @@ export default function Dashboard() {
                               <DropdownMenuContent align="end">
                                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                 <DropdownMenuItem>Edit</DropdownMenuItem>
-                                <DropdownMenuItem>Delete</DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => handleDelete(item.id)}>Delete</DropdownMenuItem>
                               </DropdownMenuContent>
                             </DropdownMenu>
                           </TableCell>
