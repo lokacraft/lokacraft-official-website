@@ -13,8 +13,9 @@ export function AppleCardsCarouselDemo() {
     <div className=" w-full h-full py-20">
       <div className="w-full px-8 flex flex-col justify-start items-start space-y-3">
         <h2 className="max-w-7xl pl-4 text-xl md:text-5xl font-bold font-sans">
-        Who We Serve: 
+        Who We Serve:
         </h2>
+        {/* test */}
         <h2 className="max-w-7xl pl-4 text-xl md:text-5xl font-bold font-sans">
         Empowering Every Industry 
         </h2>
