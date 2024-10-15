@@ -22,7 +22,7 @@ function Navbar() {
   const [showNavbar, setShowNavbar] = useState<boolean>(false);
       useEffect(() => {
         const scrollHeader = () => {
-          if(window.scrollY >= 20) {
+          if(window.scrollY >= 400) {
             setShowNavbar(true)
           } else {
             setShowNavbar(false)
@@ -35,14 +35,14 @@ function Navbar() {
     
       }, []);
   return (
-    <div className={`${showNavbar===false? "bg-transparent text-whitee" : "bg-[#F7F8FF] text-gray-600 shadow-sm shadow-gray-200 transition-all ease-in duration-300"} fixed z-50 top-0 left-0 w-screen h-[90px] px-[5vw] flex items-center justify-between`}>
+    <div className={`${showNavbar===false? "bg-transparent text-white" : "bg-[#121212] text-white shadow-sm shadow-gray-200 transition-all ease-in duration-300"} fixed z-50 top-0 left-0 w-screen h-[90px] px-[5vw] flex items-center justify-between`}>
       {/* left */}
       <a href='/' className='scale-[0.8] lg:scale-100 flex items-center justify-start space-x-2 cursor-pointer'>
             <Image priority quality={100} alt="image" src={Logo1} width={800} height={500} className='w-10 h-10' />
-            <span className='text-xl font-extrabold'>lokacraft</span>
+            <span className={`${showNavbar===false? "hidden" : "text-xl font-extrabold"}`}>arthaloka</span>
       </a>
       {/* right lg */}
-      <div className='hidden flex-1 lg:flex lg:items-center lg:justify-end space-x-7 text-lg'>
+      <div className={`${showNavbar===false? "hidden" : "hidden flex-1 lg:flex lg:items-center lg:justify-end space-x-7 text-lg"}`}>
             <a href={"/"} className="hover:scale-105 hover:text-[#1E86FF] transition-all ease-in duration-150">Home</a>
             <a href={"/about"} className="hover:scale-105 hover:text-[#1E86FF] transition-all ease-in duration-150">About</a>
             <a href={"/service"} className="hover:scale-105 hover:text-[#1E86FF] transition-all ease-in duration-150">Service</a>

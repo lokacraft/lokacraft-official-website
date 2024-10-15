@@ -1,0 +1,48 @@
+"use client"
+
+import React from 'react'
+import { ParallaxBanner, ParallaxBannerLayer } from 'react-scroll-parallax';
+import Globe from "../../../../../public/images/home/globe.png"
+import Background from "../../../../../public/images/home/background.png"
+import Image from 'next/image';
+import { TextGenerateEffect } from '@/components/ui/text-generate-effect';
+
+const words = `Bridging Tradition and Innovation Through Technology`
+function Hero() {
+      return (
+            <ParallaxBanner
+              layers={[
+                { image: '/images/home/background.png', speed: -20 },
+            //       {children: <Image src={Background} quality={100} width={1000} height={1000} className='w-screen' alt="background"    />,
+            //       expanded: false,
+            //       speed: -20,
+            //       scale: [1, 1.2],
+            //       opacity: [0.9, 1],      
+            // },
+                {
+                  speed: -50,
+                  children: (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <h1 className="text-4xl text-white font-semibold -mt-[240px]">
+                      <TextGenerateEffect duration={3} words={words} />
+                      </h1>
+                    </div>
+                  ),
+                  translateY: [0, 60],
+                  scale: [1, 1.05, 'easeOutCubic'],
+                  shouldAlwaysCompleteAnimation: true,
+                  expanded: false,
+                },
+                {children: <Image src={Globe} quality={100} width={1000} height={1000} className='w-screen' alt="background"    />,
+                  expanded: false,
+                  speed: -10,
+                  scale: [1, 1.2],
+                  opacity: [1, 1],      
+            },
+              ]}
+              className="aspect-[2/1] w-full h-screen"
+            />
+          );
+}
+
+export default Hero

@@ -1,4 +1,35 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+      // async rewrites() {
+      // return [
+      //       {
+      //       source: '/lokacraft',
+      //       destination: '/lokacraft',
+      //       },
+      // ]
+      // },
+      reactStrictMode: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com'
+      },
+      {
+        protocol: 'https',
+        hostname: 'hydeparkwinterwonderland.com'
+      },
+      {
+        protocol: 'https',
+        hostname: 'wembleypark.com'
+      },
+      {
+        protocol: 'https',
+        hostname: 'assets.aceternity.com'
+      },
+    ]
+  }
+};
+
 
 export default nextConfig;

@@ -2,6 +2,7 @@
 import Image from "next/image";
 import React from "react";
 import { Carousel, Card } from "@/components/ui/apple-cards-carrausel";
+import Logo from "../../../public/images/lokacraft-logo.png"
 
 export function AppleCardsCarouselDemo() {
   const cards = data.map((card, index) => (
@@ -9,10 +10,15 @@ export function AppleCardsCarouselDemo() {
   ));
 
   return (
-    <div className="w-full h-full py-20">
-      <h2 className="max-w-7xl pl-4 mx-auto text-xl md:text-5xl font-bold text-neutral-800 dark:text-neutral-200 font-sans">
-        Get to know your iSad.
-      </h2>
+    <div className=" w-full h-full py-20">
+      <div className="w-full px-8 flex flex-col justify-start items-start space-y-3">
+        <h2 className="max-w-7xl pl-4 text-xl md:text-5xl font-bold font-sans">
+        Who We Serve: 
+        </h2>
+        <h2 className="max-w-7xl pl-4 text-xl md:text-5xl font-bold font-sans">
+        Empowering Every Industry 
+        </h2>
+      </div>
       <Carousel items={cards} />
     </div>
   );
@@ -37,7 +43,7 @@ const DummyContent = () => {
               thought.
             </p>
             <Image
-              src="https://assets.aceternity.com/macbook.png"
+              src={Logo}
               alt="Macbook mockup from Aceternity UI"
               height="500"
               width="500"
