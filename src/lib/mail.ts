@@ -45,8 +45,6 @@ export async function sendMail({
       from: from,
       to,
       subject,
-      selectedCategory,
-      customCategory,
       html: body,
     });
     console.log(sendResult);
