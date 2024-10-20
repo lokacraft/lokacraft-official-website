@@ -22,7 +22,7 @@ function Navbar() {
   const [showNavbar, setShowNavbar] = useState<boolean>(false);
       useEffect(() => {
         const scrollHeader = () => {
-          if(window.scrollY >= 400) {
+          if(window.scrollY >= 480) {
             setShowNavbar(true)
           } else {
             setShowNavbar(false)

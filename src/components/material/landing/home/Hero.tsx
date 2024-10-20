@@ -20,7 +20,7 @@ function Hero() {
             //       opacity: [0.9, 1],      
             // },
                 {
-                  speed: -50,
+                  speed: -70,
                   children: (
                     <div className="absolute inset-0 flex items-center justify-center">
                       <h1 className="text-4xl text-white font-semibold -mt-[240px]">
@@ -29,14 +29,14 @@ function Hero() {
                     </div>
                   ),
                   translateY: [0, 60],
-                  scale: [1, 1.05, 'easeOutCubic'],
+                  scale: [1, 1.1, 'easeOutCubic'],
                   shouldAlwaysCompleteAnimation: true,
                   expanded: false,
                 },
                 {children: <Image src={Globe} quality={100} width={1000} height={1000} className='w-screen' alt="background"    />,
                   expanded: false,
-                  speed: -10,
-                  scale: [1, 1.2],
+                  speed: -20,
+                  scale: [1, 1.5],
                   opacity: [1, 1],      
             },
               ]}
