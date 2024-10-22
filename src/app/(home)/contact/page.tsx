@@ -104,7 +104,7 @@ function ContactUs() {
             className='relative flex-[0.5] flex flex-col p-6 justify-between'>
                   {/* categories */}
                   <div className="w-full flex flex-col gap-y-6">
-                        <Label htmlFor="Nama">Specify Yout Industry {errors.category ? (<span className="font-light text-xs text-red-400">Mohon pilih category</span>) : (<></>)}</Label>
+                        <Label htmlFor="Nama">Specify Your Industry {errors.category ? (<span className="font-light text-xs text-red-400">Mohon pilih category</span>) : (<></>)}</Label>
                         <div className="flex flex-wrap gap-2 w-full">
                               {categories.map((category) => (
                                     <Button
@@ -130,12 +130,14 @@ function ContactUs() {
                         {/* conditional jika other */}
                         {selectedCategory === 'Other' && (
                               <div className={`w-full mt-1 grid gap-2.5 transition-opacity duration-500 ${selectedCategory === 'Other' ? 'opacity-100' : 'opacity-0'}`}>
-                              <Label htmlFor="customCategory">Enter Custom Category</Label>
+                              <Label htmlFor="customCategory">Input Industri Anda</Label>
                               <Input
+                                    autoFocus
+                                    autoComplete="off"
                                     type="text"
                                     id="customCategory"
-                                    placeholder="Custom Category"
-                                    className={`lg:w-[50%] ${errors.category ? 'border-red-500' : ''}`}
+                                    placeholder="input jenis industri"
+                                    className={`lg:w-[45%] ${errors.category ? 'border-red-500' : ''}`}
                                     value={customCategory}
                                     onChange={(e) => setCustomCategory(e.target.value)}
                               />
@@ -182,7 +184,7 @@ function ContactUs() {
                   {/* submit */}
                   <div className='w-full flex'>
                         <Button type='submit' className='bg-white text-gray-800'>
-                              <SendIcon className="mr-2 h-4 w-4" /> Send To Email
+                              <SendIcon className="mr-2 h-4 w-4" /> Send Message
                         </Button>
                   </div>
             </form>

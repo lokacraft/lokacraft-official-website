@@ -6,19 +6,28 @@ import Globe from "../../../../../public/images/home/globe.png"
 import Background from "../../../../../public/images/home/background.png"
 import Image from 'next/image';
 import { TextGenerateEffect } from '@/components/ui/text-generate-effect';
+import { ShootingStars } from '@/components/ui/shooting-stars';
+import { StarsBackground } from '@/components/ui/stars-background';
 
 const words = `Bridging Tradition and Innovation Through Technology`
 function Hero() {
       return (
             <ParallaxBanner
               layers={[
-                { image: '/images/home/background.png', speed: -20 },
-            //       {children: <Image src={Background} quality={100} width={1000} height={1000} className='w-screen' alt="background"    />,
-            //       expanded: false,
-            //       speed: -20,
-            //       scale: [1, 1.2],
-            //       opacity: [0.9, 1],      
-            // },
+                // { image: '/images/home/background.png', speed: -20 },
+                  {children: (
+                  <>
+                           <ShootingStars />
+                           <StarsBackground />
+                  </>
+                  ),
+                  expanded: false,
+                  speed: -20,
+                  scale: [1, 0.8],
+                  shouldAlwaysCompleteAnimation: true,
+                  // opacity: [0.9, 1],      
+            },
+    
                 {
                   speed: -70,
                   children: (

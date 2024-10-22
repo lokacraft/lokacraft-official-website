@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/sheet"
 // import { CgMenuLeft } from "react-icons/cg";
 import { Menu } from 'lucide-react'
-import Logo1 from "../../../../public/images/lokacraft-logo.png"
+import Logo1 from "../../../../public/images/ArthalokaLogo.png"
 
 
 
@@ -39,14 +39,17 @@ function Navbar() {
       {/* left */}
       <a href='/' className='scale-[0.8] lg:scale-100 flex items-center justify-start space-x-2 cursor-pointer'>
             <Image priority quality={100} alt="image" src={Logo1} width={800} height={500} className='w-10 h-10' />
-            <span className={`${showNavbar===false? "hidden" : "text-xl font-extrabold"}`}>arthaloka</span>
+            <div className={`${showNavbar===false? "hidden" : "flex flex-col"}`}>
+              <span className="text-sm font-semibold">ARTHA LOKA</span>
+              <span className="text-sm font-semibold">TECHNOLOGY</span>
+            </div>
       </a>
       {/* right lg */}
       <div className={`${showNavbar===false? "hidden" : "hidden flex-1 lg:flex lg:items-center lg:justify-end space-x-7 text-lg"}`}>
             <a href={"/"} className="hover:scale-105 hover:text-[#1E86FF] transition-all ease-in duration-150">Home</a>
             <a href={"/about"} className="hover:scale-105 hover:text-[#1E86FF] transition-all ease-in duration-150">About</a>
             <a href={"/service"} className="hover:scale-105 hover:text-[#1E86FF] transition-all ease-in duration-150">Service</a>
-            <a href={"/project"} className="hover:scale-105 hover:text-[#1E86FF] transition-all ease-in duration-150">Project</a>
+            <a href={"/product"} className="hover:scale-105 hover:text-[#1E86FF] transition-all ease-in duration-150">Product</a>
             <a href={"/contact"} className="hover:scale-105 hover:text-[#1E86FF] transition-all ease-in duration-150">Contact</a>
       </div>
       {/* <a href={"/contact"} className='hidden lg:inline-flex px-4 py-3 hover:bg-[#1E86FF] transition-all duration-300 rounded-md bg-[#012169] text-white'>Contact Us</a> */}
@@ -69,8 +72,8 @@ function Navbar() {
                                   <a href={"/service"} className='flex items-center justify-start space-x-2'>
                                     <h1>Service</h1>  
                                   </a> 
-                                  <a href={"/project"} className='flex items-center justify-start space-x-2'>
-                                    <h1>Project</h1>  
+                                  <a href={"/product"} className='flex items-center justify-start space-x-2'>
+                                    <h1>Product</h1>  
                                   </a> 
                                   <a href={"/contact"} className='flex items-center justify-start space-x-2'>
                                     <h1>Contact</h1>  
