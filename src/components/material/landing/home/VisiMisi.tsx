@@ -28,7 +28,7 @@ function VisiMisi() {
       <div className='w-full p-8 flex flex-col gap-y-5'>
       {/* header */}
       <h1 className="text-lg font-semibold text-blue-500">2. Vision and Mission</h1>
-      <h1 className="text-[36px] font-semibold">
+      <h1 className="text-head-home">
       Driven by Innovation, Anchored by Values
       </h1>
       {/* vision */}

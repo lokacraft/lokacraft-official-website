@@ -11,7 +11,7 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="w-full flex flex-col divide-y-[1.5px] divide-gray-500">
+    <div className="w-screen flex flex-col divide-y-[1.5px] divide-gray-500 overflow-x-hidden">
       {/* Hero */}
       <Hero />
       {/* featured client */}
@@ -29,9 +29,9 @@ export default function Home() {
       <ContactBanner />
       {/* Key Features */}
       {/* Testimonial */}
-      <div className="h-screen w-full flex items-center justify-center ">
+      {/* <div className="h-screen w-full flex items-center justify-center ">
       
-      </div>
+      </div> */}
       
     </div>
   );

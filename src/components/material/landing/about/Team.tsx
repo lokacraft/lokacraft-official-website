@@ -10,12 +10,12 @@ function Team() {
   const OPTIONS: EmblaOptionsType = { align: 'start', loop: true }
   const slides = [
     { image: Syadda ,nama: 'Syadda Abdullah', katamutiara: 'Effective ways of working on earth with technological inovation', job: 'Head of Design' },
+    { image: Yusuf ,nama: 'M. Yusuf Sulaiman', katamutiara: 'We are Proud of Ourselves', job: 'Head of Marketing' },
     { image: Ahadan ,nama: 'M. Ahadan Nur Fauzan', katamutiara: 'Transforming Throughout the world within technology', job: 'Head of Developer' },
-    { image: Yusuf ,nama: 'M. Yusuf Sulaiman', katamutiara: 'Go Big or Go Home', job: 'Head of Marketing' },
     { image: Alan ,nama: 'Fadhlan Ridhwana M', katamutiara: 'Carrying out transformation with an authentic style that can produce inovative work', job: 'Head of Finance' },
   ]
   return (
-    <div className="w-full h-[75vh]">
+    <div className="w-full h-fit">
       <EmblaCarousel slides={slides} options={OPTIONS} />
     </div>
   )

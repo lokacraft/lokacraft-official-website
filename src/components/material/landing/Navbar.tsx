@@ -35,7 +35,7 @@ function Navbar() {
     
       }, []);
   return (
-    <div className={`${showNavbar===false? "bg-transparent text-white" : "bg-[#121212] text-white shadow-sm shadow-gray-200 transition-all ease-in duration-300"} fixed z-50 top-0 left-0 w-screen h-[90px] px-[5vw] flex items-center justify-between`}>
+    <div className={`${showNavbar===false? "bg-transparent text-white" : "bg-[#121212] text-white shadow-sm shadow-gray-200 transition-all ease-in duration-300"} fixed z-50 top-0 left-0 w-screen h-[90px] px-[5vw] flex items-center justify-between overflow-x-hidden`}>
       {/* left */}
       <a href='/' className='scale-[0.8] lg:scale-100 flex items-center justify-start space-x-2 cursor-pointer'>
             <Image priority quality={100} alt="image" src={Logo1} width={800} height={500} className='w-10 h-10' />
@@ -48,7 +48,6 @@ function Navbar() {
       <div className={`${showNavbar===false? "hidden" : "hidden flex-1 lg:flex lg:items-center lg:justify-end space-x-7 text-lg"}`}>
             <a href={"/"} className="hover:scale-105 hover:text-[#1E86FF] transition-all ease-in duration-150">Home</a>
             <a href={"/about"} className="hover:scale-105 hover:text-[#1E86FF] transition-all ease-in duration-150">About</a>
-            <a href={"/service"} className="hover:scale-105 hover:text-[#1E86FF] transition-all ease-in duration-150">Service</a>
             <a href={"/product"} className="hover:scale-105 hover:text-[#1E86FF] transition-all ease-in duration-150">Product</a>
             <a href={"/contact"} className="hover:scale-105 hover:text-[#1E86FF] transition-all ease-in duration-150">Contact</a>
       </div>
@@ -62,16 +61,13 @@ function Navbar() {
                           <SheetContent>
                             <SheetHeader>
                               <SheetDescription>
-                              <div className='flex text-lg flex-col text-md font-semi-bold items-start justify-start space-y-8 mt-[100px]'>
+                              <div className='flex  flex-col  font-semi-bold items-start justify-start space-y-8 mt-[100px]'>
                                   <a href={"/"} className='flex items-center justify-start space-x-2'>
                                     <h1>Home</h1>  
                                   </a> 
                                   <a href={"/about"} className='flex items-center justify-start space-x-2'>
                                     <h1>About</h1>  
-                                  </a> 
-                                  <a href={"/service"} className='flex items-center justify-start space-x-2'>
-                                    <h1>Service</h1>  
-                                  </a> 
+                                  </a>
                                   <a href={"/product"} className='flex items-center justify-start space-x-2'>
                                     <h1>Product</h1>  
                                   </a> 

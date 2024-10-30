@@ -40,7 +40,7 @@ export const TypewriterEffectSmooth = ({
         className="overflow-hidden pb-2"
       >
         <div
-          className="text-xs sm:text-base md:text-xl lg:text:3xl xl:text-5xl font-bold"
+          className="text-xl md:text-2xl lg:text:3xl xl:text-5xl font-bold"
           style={{
             whiteSpace: "nowrap",
           }}

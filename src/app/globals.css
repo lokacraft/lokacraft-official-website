@@ -63,8 +63,20 @@
   * {
     @apply border-border;
   }
+  html {
+    @apply overflow-x-hidden;
+  }
   body {
     @apply bg-background text-foreground;
+  }
+  .text-head {
+    @apply text-6xl 2xl:text-7xl;
+  }
+  .text-head-home {
+    @apply text-5xl 2xl:text-6xl font-bold;
+  }
+  .text-foreign {
+    @apply text-gray-200;
   }
 }
 

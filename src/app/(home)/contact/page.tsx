@@ -57,7 +57,7 @@ function ContactUs() {
 
       return (
     <div className="w-full flex flex-col">
-      <div className='w-full h-screen flex'>
+      <div className='w-full lg:h-screen flex flex-col lg:flex-row'>
             {/* left lg */}
             <div className="relative flex-[0.5]">
                   {/* image */}
@@ -101,7 +101,7 @@ function ContactUs() {
                         setErrors({});
                   }
                 }}
-            className='relative flex-[0.5] flex flex-col p-6 justify-between'>
+            className='relative lg:flex-[0.5] flex flex-col p-6 lg:justify-between'>
                   {/* categories */}
                   <div className="w-full flex flex-col gap-y-6">
                         <Label htmlFor="Nama">Specify Your Industry {errors.category ? (<span className="font-light text-xs text-red-400">Mohon pilih category</span>) : (<></>)}</Label>
@@ -129,7 +129,7 @@ function ContactUs() {
                         </div>
                         {/* conditional jika other */}
                         {selectedCategory === 'Other' && (
-                              <div className={`w-full mt-1 grid gap-2.5 transition-opacity duration-500 ${selectedCategory === 'Other' ? 'opacity-100' : 'opacity-0'}`}>
+                              <div className={`lg:w-full w-[45%] mt-1 grid gap-2.5 transition-opacity duration-500 ${selectedCategory === 'Other' ? 'opacity-100' : 'opacity-0'}`}>
                               <Label htmlFor="customCategory">Input Industri Anda</Label>
                               <Input
                                     autoFocus
@@ -145,7 +145,7 @@ function ContactUs() {
                         )}
                   </div>
                   {/* forms */}
-                  <div className="flex-1 py-8 w-full flex flex-col space-y-6">
+                  <div className=" lg:flex-1 py-8 w-full flex flex-col space-y-6">
                         <div className="flex items-center space-x-3">
                               {/* Name */}
                               <div className="grid w-[45%] items-center gap-2.5">
@@ -165,7 +165,7 @@ function ContactUs() {
                               </div>
                         </div>
                         {/* email */}
-                        <div className="grid w-full max-w-sm items-center gap-2.5">
+                        <div className="grid w-full max-w-[45%] items-center gap-2.5">
                               <Label htmlFor="email">Email {errors.email ? (<span className="font-light text-xs text-red-400">Mohon isi field ini</span>) : (<></>)}</Label>
                               <Input type="email" id="email" placeholder="Email"
                               value={from}
@@ -175,10 +175,12 @@ function ContactUs() {
                         {/* detail */}
                         <div className="grid w-[92%] gap-2.5">
                               <Label htmlFor="message">Your message {errors.message ? (<span className="font-light text-xs text-red-400">Mohon isi field ini</span>) : (<></>)}</Label>
-                              <Textarea placeholder="Type your message here." id="message"
-                              value={message}
-                              onChange={(e) => setMessage(e.target.value)}
-                              className={errors.message ? 'border-red-500' : ''} />
+                              <div className="w-full h-[100px] overflow-y-auto">
+                                    <Textarea placeholder="Type your message here." id="message"
+                                    value={message}
+                                    onChange={(e) => setMessage(e.target.value)}
+                                    className={errors.message ? 'border-red-500' : ''} />
+                              </div>
                         </div>
                   </div>
                   {/* submit */}

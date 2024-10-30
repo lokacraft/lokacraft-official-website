@@ -31,8 +31,8 @@ function Hero() {
                 {
                   speed: -70,
                   children: (
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <h1 className="text-4xl text-white font-semibold -mt-[240px]">
+                    <div className="p-8 absolute inset-0 flex items-center justify-center">
+                      <h1 className="text-4xl text-white font-semibold -mt-[100px] lg:-mt-[240px]">
                       <TextGenerateEffect duration={3} words={words} />
                       </h1>
                     </div>
@@ -42,7 +42,11 @@ function Hero() {
                   shouldAlwaysCompleteAnimation: true,
                   expanded: false,
                 },
-                {children: <Image src={Globe} quality={100} width={1000} height={1000} className='w-screen' alt="background"    />,
+                {children: (
+                  <div className='w-screen absolute bottom-[40px] lg:bottom-0 left-0'>
+                    <Image src={Globe} quality={100} width={1000} height={1000} className='w-screen' alt="background"    />
+                  </div>
+              ),
                   expanded: false,
                   speed: -20,
                   scale: [1, 1.5],

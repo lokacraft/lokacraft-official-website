@@ -1,4 +1,5 @@
 "use client"
+import { Variants, motion } from 'framer-motion';
 import React from 'react'
 import { EmblaOptionsType } from 'embla-carousel'
 import Fade from 'embla-carousel-fade'
@@ -32,25 +33,49 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
     onNextButtonClick
   } = usePrevNextButtons(emblaApi)
 
+const bounceIntro: Variants = {
+            offscreen: {
+              y: -40,
+              opacity: 0
+            },
+            onscreen: {
+              y: 0,
+              opacity: 1,
+              // rotate: -10,
+              transition: {
+                type: "spring",
+                bounce: 0.8,
+                duration: 1.5
+              }
+            }
+  };
+
   return (
     <section className="embla relative w-[80vw] bg-[#212121] rounded-lg">
-      <div className="embla__viewport" ref={emblaRef}>
+      <div className="embla__viewport pb-[50px]" ref={emblaRef}>
         <div className="embla__container">
         {slides.map((slide, index) => (
             <div className="embla__slide" key={index}>
-              <div className="embla__slide__content flex items-start justify-between bg-red-40 p-8">
-                  <div className="flex-[0.4] h-[45vh]">
+              <div className="embla__slide__content flex flex-col lg:flex-row gap-y-4 lg:gap-y-0 items-start lg:justify-between p-8">
+                  <span className='inline-flex lg:hidden text-blue-500 text-xl font-semibold'>{slide.job}</span>
+                  <div className="w-full lg:flex-[0.4] h-[50vh] lg:h-[45vh]">
                         <Image src={slide.image} alt="profil" width={1000} height={1000} quality={100} className='rounded-xl object-cover w-full h-full' />
                   </div>
-                  <div className="flex-1 px-10 flex flex-col gap-y-6">
-                        <span className='text-blue-500 text-xl font-semibold'>{slide.job}</span>
-                        <h3 className='text-7xl'>{slide.nama}</h3>
-                        <div className="flex flex-col gap-y-0">
-                              <h1 className="text-[140px] text-orange-500">&quot;
-                              <span className='text-gray-100 text-2xl font-semibold'>&quot;{slide.katamutiara}&quot;</span>
-                              </h1>
+                  <motion.div
+                  initial="offscreen"
+                  whileInView="onscreen"
+                  viewport={{ once: false, amount: 0.8 }}
+                  variants={bounceIntro}
+                  className="w-full lg:flex-1 lg:px-10 flex flex-col gap-y-2 lg:gap-y-6">
+                        <span className='hidden lg:inline-flex text-blue-500 text-xl font-semibold'>{slide.job}</span>
+                        <h3 className='text-6xl 2xl:text-7xl'>{slide.nama}</h3>
+                        <div className="leading-none flex flex-col">
+                              <span className="leading-none text-7xl lg:text-[140px] text-orange-500">
+                                &quot;
+                              </span>
+                              <p className='text-foreign text-2xl font-semibold'>&quot;{slide.katamutiara}&quot;</p>
                         </div>
-                  </div>
+                  </motion.div>
               </div>
             </div>
           ))}
