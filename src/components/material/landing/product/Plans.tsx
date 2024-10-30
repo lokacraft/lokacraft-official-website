@@ -2,7 +2,7 @@ import Image from 'next/image'
 import React from 'react'
 
 import StarterPlan from "../../../../../public/images/product/StarterPlan.png"
-import ProPlan from "../../../../../public/images/product/ProPlan.png"
+import ProPlan from "../../../../../public/images/product/Proplan.png"
 import CustomPlan from "../../../../../public/images/product/CustomPlan.png"
 function Plans() {
   return (
