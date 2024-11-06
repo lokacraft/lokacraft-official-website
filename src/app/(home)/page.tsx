@@ -1,13 +1,11 @@
 import { AppleCardsCarouselDemo } from "@/components/material/apple";
-import { Globe } from "@/components/material/heroglobe";
 import AboutHome from "@/components/material/landing/home/AboutHome";
 import ContactBanner from "@/components/material/landing/home/ContactBanner";
 import FeaturedClient from "@/components/material/landing/home/FeaturedClient";
 import Hero from "@/components/material/landing/home/Hero";
+import ProductService from "@/components/material/landing/home/ProductService";
 import { ValueProposition } from "@/components/material/landing/home/ValueProposition";
 import VisiMisi from "@/components/material/landing/home/VisiMisi";
-import { PinContainer } from "@/components/ui/3d-pin";
-import Image from "next/image";
 
 export default function Home() {
   return (
@@ -21,6 +19,7 @@ export default function Home() {
       {/* vision and mission */}
       <VisiMisi />
       {/* Service&Product */}
+      <ProductService />
       {/* Value Proposition */}
       <ValueProposition />
       {/* Featured Products */}

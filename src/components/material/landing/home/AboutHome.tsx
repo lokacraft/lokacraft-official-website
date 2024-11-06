@@ -2,6 +2,10 @@ import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 
+            
+import About from "../../../../../public/images/home/AboutHome.png"
+import Image from 'next/image'
+
 function AboutHome() {
   return (
     <div className='w-full p-8 flex flex-col gap-y-5'>
@@ -28,7 +32,9 @@ function AboutHome() {
             </div>
             {/*right */}
             <div className="hidden lg:inline-flex lg:flex-[0.45]">
-                  <div className="w-full h-[400px] bg-gray-500"></div>
+                  <div className="w-full h-[400px]">
+                        <Image src={About} alt="perpenka" width={1000} height={1000} quality={100} className='w-full h-full object-cover' />
+                  </div>
             </div>
 
       </div>

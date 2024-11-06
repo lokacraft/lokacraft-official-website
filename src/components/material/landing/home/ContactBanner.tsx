@@ -9,6 +9,7 @@ import { TextGenerateEffect } from '@/components/ui/text-generate-effect';
 import { ShootingStars } from '@/components/ui/shooting-stars';
 import { StarsBackground } from '@/components/ui/stars-background';
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 const words = `Bridging Tradition and Innovation Through Technology`
 function ContactBanner() {
@@ -21,9 +22,14 @@ function ContactBanner() {
             >
                   <div className="absolute inset-0 flex flex-col items-center justify-center gap-y-12 p-8">
                   <h1 className="text-5xl 2xl:text-8xl font-thin text-center 2xl:text-left">Ready to Transform? Lets Build the Future Together</h1>
-                        <div className="flex items-center justify:center w-full gap-x-5">
-                              <Button className="p-6 bg-blue-400 text-2xl" >Contact</Button>
-                              <Button variant="outline" className="p-6 text-2xl" >Contact</Button>
+                        <div className="flex items-center justify-center w-full gap-x-5">
+                        <Link href={"/contact"} className="mt-8 p-[3px] relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg" />
+            <div className="px-8 py-2  bg-black rounded-[6px]  relative group transition duration-200 text-white hover:bg-transparent">
+            Contact Us
+            </div>
+            </Link>
+                              {/* <Button variant="outline" className="p-6 text-2xl" >Contact</Button> */}
 
                         </div>
                   </div>

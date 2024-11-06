@@ -17,8 +17,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "lokacraft",
-  description: "lakacraft",
+  title: "arthaloka",
+  description: "Arthaloka Technology",
 };
 
 export default function HomeLayout({
