@@ -4,8 +4,9 @@ export function middleware(req: NextRequest) {
   const url = req.nextUrl.clone();
   const hostname = req.headers.get("host");
 
+  console.log("Hostname:", hostname); // Log untuk debug
+
   if (hostname === "admin.arthaloka.tech") {
-    // Mengarahkan semua permintaan ke folder /admin
     url.pathname = `/admin${url.pathname}`;
     return NextResponse.rewrite(url);
   }
