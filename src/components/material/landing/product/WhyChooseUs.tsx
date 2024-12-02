@@ -16,7 +16,9 @@ function WhyChooseUs() {
                         <div className="px-6 py-2 rounded-lg bg-[#212121] text-xl font-semibold">Secure Hosting: Reliable hosting.</div>
                         <div className="px-6 py-2 rounded-lg bg-[#212121] text-xl font-semibold">SEO-Friendly: Built-in tools to improve search rankings.</div>
                   </div>
+                  
                   {/* image */}
+                  {/* change here for git */}
                   <Image src={Phone} alt="plan" width={1000} height={1000} quality={90}
                   className='w-full lg:w-[30%]' />
             </div>
