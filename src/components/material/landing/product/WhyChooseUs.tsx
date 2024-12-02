@@ -9,17 +9,16 @@ function WhyChooseUs() {
             {/* content */}
             <div className="w-full flex flex-col lg:flex-row items-center lg:justify-center lg:gap-x-5 gap-y-6">
                   {/* proposition */}
-                  <div className="w-full lg:flex-[0.45] flex flex-wrap gap-2">
-                        <div className="px-6 py-2 rounded-lg bg-[#212121] text-2xl font-semibold">Faster</div>
-                        <div className="px-6 py-2 rounded-lg bg-[#212121] text-2xl font-semibold">Credible</div>
-                        <div className="px-6 py-2 rounded-lg bg-[#212121] text-2xl font-semibold">Market Friendly</div>
-                        <div className="px-6 py-2 rounded-lg bg-[#212121] text-2xl font-semibold">Trusted</div>
-                        <div className="px-6 py-2 rounded-lg bg-[#212121] text-2xl font-semibold">Futuristic</div>
-                        <div className="px-6 py-2 rounded-lg bg-[#212121] text-2xl font-semibold">Credible</div>
+                  <div className="w-full lg:flex-[0.60] flex flex-wrap gap-2">
+                        <div className="px-6 py-2 rounded-lg bg-[#212121] text-xl font-semibold">Drag-and-Drop Builder : No coding required.</div>
+                        <div className="px-6 py-2 rounded-lg bg-[#212121] text-xl font-semibold">Responsive Design: Perfect on any device.</div>
+                        <div className="px-6 py-2 rounded-lg bg-[#212121] text-xl font-semibold">Customizable Templates: Design options for any industry.</div>
+                        <div className="px-6 py-2 rounded-lg bg-[#212121] text-xl font-semibold">Secure Hosting: Reliable hosting.</div>
+                        <div className="px-6 py-2 rounded-lg bg-[#212121] text-xl font-semibold">SEO-Friendly: Built-in tools to improve search rankings.</div>
                   </div>
                   {/* image */}
                   <Image src={Phone} alt="plan" width={1000} height={1000} quality={90}
-                  className='w-full lg:w-[40%]' />
+                  className='w-full lg:w-[30%]' />
             </div>
       </div>
   )

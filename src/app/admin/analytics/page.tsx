@@ -80,7 +80,7 @@ export default function Charts() {
             <div className="chart-wrapper mx-auto flex max-w-6xl flex-col flex-wrap items-start justify-center gap-6 p-6 sm:flex-row sm:p-8">
                   <div className="grid w-full gap-6 sm:grid-cols-2 lg:max-w-[22rem] lg:grid-cols-1 xl:max-w-[25rem]">
                   <Card
-                  className="lg:max-w-md" x-chunk="charts-01-chunk-0"
+                  className="lg:max-w-md hover:ring-[3px] hover:ring-gray-600 dark:hover:ring-gray-200 hover:duration-500" x-chunk="charts-01-chunk-0"
                   >
                   <CardHeader className="space-y-0 pb-2">
                         <CardDescription>Today</CardDescription>
@@ -208,7 +208,7 @@ export default function Charts() {
                   </CardFooter>
                   </Card>
                   <Card
-                  className="flex flex-col lg:max-w-md" x-chunk="charts-01-chunk-1"
+                  className="flex flex-col lg:max-w-md hover:ring-[3px] hover:ring-gray-600 dark:hover:ring-gray-200 hover:duration-500" x-chunk="charts-01-chunk-1"
                   >
                   <CardHeader className="flex flex-row items-center gap-4 space-y-0 pb-2 [&>div]:flex-1">
                         <div>
@@ -331,7 +331,7 @@ export default function Charts() {
                   </div>
                   <div className="grid w-full flex-1 gap-6 lg:max-w-[20rem]">
                   <Card
-                  className="max-w-xs" x-chunk="charts-01-chunk-2"
+                  className="max-w-xs hover:ring-[3px] hover:ring-gray-600 dark:hover:ring-gray-200 hover:duration-500" x-chunk="charts-01-chunk-2"
                   >
                   <CardHeader>
                         <CardTitle>Progress</CardTitle>
@@ -445,7 +445,7 @@ export default function Charts() {
                   </CardContent>
                   </Card>
                   <Card
-                  className="max-w-xs" x-chunk="charts-01-chunk-3"
+                  className="max-w-xs hover:ring-[3px] hover:ring-gray-600 dark:hover:ring-gray-200 hover:duration-500" x-chunk="charts-01-chunk-3"
                   >
                   <CardHeader className="p-4 pb-0">
                         <CardTitle>Walking Distance</CardTitle>
@@ -529,7 +529,7 @@ export default function Charts() {
                   </CardContent>
                   </Card>
                   <Card
-                  className="max-w-xs" x-chunk="charts-01-chunk-4"
+                  className="max-w-xs hover:ring-[3px] hover:ring-gray-600 dark:hover:ring-gray-200 hover:duration-500" x-chunk="charts-01-chunk-4"
                   >
                   <CardContent className="flex gap-4 p-4 pb-2">
                         <ChartContainer
@@ -638,7 +638,7 @@ export default function Charts() {
                   </div>
                   <div className="grid w-full flex-1 gap-6">
                   <Card
-                  className="max-w-xs" x-chunk="charts-01-chunk-5"
+                  className="max-w-xs hover:ring-[3px] hover:ring-gray-600 dark:hover:ring-gray-200 hover:duration-500" x-chunk="charts-01-chunk-5"
                   >
                   <CardContent className="flex gap-4 p-4">
                         <div className="grid items-center gap-2">
@@ -728,7 +728,7 @@ export default function Charts() {
                   </CardContent>
                   </Card>
                   <Card
-                  className="max-w-xs" x-chunk="charts-01-chunk-6"
+                  className="max-w-xs hover:ring-[3px] hover:ring-gray-600 dark:hover:ring-gray-200 hover:duration-500" x-chunk="charts-01-chunk-6"
                   >
                   <CardHeader className="p-4 pb-0">
                         <CardTitle>Active Energy</CardTitle>
@@ -811,7 +811,7 @@ export default function Charts() {
                   </CardContent>
                   </Card>
                   <Card
-                  className="max-w-xs" x-chunk="charts-01-chunk-7"
+                  className="max-w-xs hover:ring-[3px] hover:ring-gray-600 dark:hover:ring-gray-200 hover:duration-500" x-chunk="charts-01-chunk-7"
                   >
                   <CardHeader className="space-y-0 pb-0">
                         <CardDescription>Time in Bed</CardDescription>

@@ -303,7 +303,7 @@ const handleDelete = async (id: string) => {
               type="checkbox"
               checked={securityStatus}
               onChange={(e) => setSecurityStatus(e.target.checked)}
-              className="col-span-3"
+              className="col-span-3 cursor-pointer w-4 h-4"
             />
           </div>
           {/* domainStatus */}
@@ -315,7 +315,7 @@ const handleDelete = async (id: string) => {
               type="checkbox"
               checked={domainStatus}
               onChange={(e) => setDomainStatus(e.target.checked)}
-              className="col-span-3"
+              className="col-span-3 cursor-pointer w-4 h-4"
             />
           </div>
         </div>

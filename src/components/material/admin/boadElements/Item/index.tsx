@@ -1,6 +1,7 @@
+
 import { UniqueIdentifier } from '@dnd-kit/core';
 import { useSortable } from '@dnd-kit/sortable';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { CSS } from '@dnd-kit/utilities';
 import clsx from 'clsx';
 import { CircleDashedIcon } from 'lucide-react';
@@ -9,6 +10,8 @@ type ItemsType = {
   id: UniqueIdentifier;
   title: string;
 };
+
+
 
 const Items = ({ id, title }: ItemsType) => {
   const {
@@ -40,10 +43,10 @@ const Items = ({ id, title }: ItemsType) => {
       <div className="flex items-center justify-between">
         {title}
         <button
-          className="border p-2 text-xs rounded-xl shadow-lg hover:shadow-xl cursor-grab"
+          className={`border p-2 text-xs rounded-xl shadow-lg hover:shadow-xl`}
           {...listeners}
         >
-          <CircleDashedIcon className='h-4 w-4' />
+          <CircleDashedIcon className={`h-4 w-4 ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`} />
         </button>
       </div>
     </div>

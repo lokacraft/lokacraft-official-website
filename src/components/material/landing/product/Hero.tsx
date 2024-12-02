@@ -2,6 +2,7 @@ import Image from 'next/image'
 import React from 'react'
 import Banner from "../../../../../public/images/product/ProductBanner.png"
 import { TextGenerateEffect } from '@/components/ui/text-generate-effect'
+import Link from 'next/link'
 
 function Hero() {
       const words = `Lokacraft by Arthaloka`
@@ -17,9 +18,11 @@ function Hero() {
             <h1 className="text-4xl lg:text-5xl">Build Your Website, Shape Your Digital Future</h1>
             <button className="p-[3px] relative w-[220px]">
             <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg" />
-            <div className="px-8 py-2  bg-black rounded-[6px]  relative group transition duration-200 text-white hover:bg-transparent">
-            Lets Work Together
-            </div>
+            <Link href={"https://lokacraft.arthaloka.tech"} >
+              <div className="px-8 py-2  bg-black rounded-[6px]  relative group transition duration-200 text-white hover:bg-transparent">
+              Lets Work Together
+              </div>
+            </Link>
             </button>
       </div>
     </div>
