@@ -3,7 +3,7 @@ import Link from 'next/link'
 import React from 'react'
 
             
-import About from "../../../../../public/images/home/AboutHome.png"
+import About from "../../../../../public/images/home/abotNewBanner.png"
 import Image from 'next/image'
 
 function AboutHome() {

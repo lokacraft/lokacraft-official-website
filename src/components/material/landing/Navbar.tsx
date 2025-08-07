@@ -73,6 +73,12 @@ function Navbar() {
                                   <a href={"/product"} className='flex items-center justify-start space-x-2'>
                                     <h1>Product</h1>  
                                   </a> 
+                                  <a href={"/services"} className='flex items-center justify-start space-x-2'>
+                                    <h1>Services</h1>  
+                                  </a> 
+                                  <a href={"/portfolio"} className='flex items-center justify-start space-x-2'>
+                                    <h1>Portfolio</h1>  
+                                  </a> 
                                   <a href={"/contact"} className='flex items-center justify-start space-x-2'>
                                     <h1>Contact</h1>  
                                   </a> 
