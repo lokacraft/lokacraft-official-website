@@ -19,7 +19,8 @@ function Footer() {
             </div>
       </Link>
       <p className="text-gray-300">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum ratione minus tenetur nihil in, numquam adipisci aut delectus nostrum temporibus voluptates sunt possimus eum totam corrupti deleniti. Quam, recusandae suscipit.
+            A digital company committed to providing innovative and impactful technology solutions for the advancement of MSMEs, education, and industry in Indonesia.
+
       </p>
       </div>
       <div className='hidden lg:inline-flex h-20 w-1 bg-gray-300 rounded-[2px]' />
