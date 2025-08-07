@@ -23,7 +23,7 @@ export default function Home() {
       {/* Value Proposition */}
       <ValueProposition />
       {/* Featured Products */}
-      <AppleCardsCarouselDemo />
+      {/* <AppleCardsCarouselDemo /> */}
       {/* contact banner */}
       <ContactBanner />
       {/* Key Features */}
