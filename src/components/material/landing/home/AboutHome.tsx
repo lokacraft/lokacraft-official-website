@@ -15,7 +15,9 @@ function AboutHome() {
       <div className="flex flex-col lg:flex-row gap-y-6 items-center lg:justify-between">
             {/* top */}
             <div className="lg:hidden w-full">
-                  <div className="w-full h-[400px] bg-gray-600 rounded-lg"></div>
+                  <div className="w-full h-[400px] bg-gray-600 rounded-lg">
+                        <Image src={About} alt="perpenka" width={1000} height={1000} quality={100} className='w-full h-full object-cover' />
+                  </div>
             </div>
             {/* left */}
             <div className="flex flex-col gap-y-3 lg:flex-[0.45]">
