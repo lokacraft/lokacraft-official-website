@@ -1,126 +1,100 @@
-import React from 'react'
-import Link from "next/link"
-import {
-  
-  Home,
-  LineChart,
-  Package,
-  Package2,
-  Settings,
-  ShoppingCart,
-  Users2,
-} from "lucide-react"
+"use client"; // Jadikan Client Component
 
+import React from 'react';
+import Link from "next/link";
+import { usePathname } from "next/navigation"; // Impor hook usePathname
+import {
+  LineChart,
+  Trophy,
+  Handshake,
+  FolderOpen,
+  Settings,
+  Package, // Ganti dengan ikon yang sesuai
+} from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
   TooltipProvider
-} from "@/components/ui/tooltip"
-function Sidebar() {
-  return (
-      <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
-        <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
-          <Link
-            href="/admin/sales"
-            className="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
-          >
-            <Package2 className="h-4 w-4 transition-all group-hover:scale-110" />
-            <span className="sr-only">locacraft</span>
-          </Link>
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Link
-                  href="/admin/dashboard"
-                  className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-                >
-                  <Home className="h-5 w-5" />
-                  <span className="sr-only">Dashboard</span>
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent side="right">Dashboard</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Link
-                  href="/admin/sales"
-                  className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-accent-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-                >
-                  <ShoppingCart className="h-5 w-5" />
-                  <span className="sr-only">Orders</span>
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent side="right">Orders</TooltipContent>
-            </Tooltip>  
-          </TooltipProvider>
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Link
-                  href="/admin/projects"
-                  className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-                >
-                  <Package className="h-5 w-5" />
-                  <span className="sr-only">Projects</span>
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent side="right">Projects</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-          <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Link
-                href="#"
-                className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-              >
-                <Users2 className="h-5 w-5" />
-                <span className="sr-only">Customers</span>
-              </Link>
-            </TooltipTrigger>
-            <TooltipContent side="right">Customers</TooltipContent>
-          </Tooltip>
-          </TooltipProvider>
+} from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
 
-          <TooltipProvider>
+// Definisikan link dalam sebuah array agar lebih rapi
+const navItems = [
+  {
+    href: "/admin/dashboard/partnerships1",
+    label: "Partnerships",
+    icon: Handshake,
+  },
+  {
+    href: "/admin/dashboard/products1", // Path disesuaikan
+    label: "Products",
+    icon: Package,
+  },
+  {
+    href: "/admin/dashboard/achievements1", // Path disesuaikan
+    label: "Achievements",
+    icon: Trophy,
+  },
+  {
+    href: "/admin/dashboard/portfolio1", // Path disesuaikan
+    label: "Portfolio",
+    icon: FolderOpen,
+  },
+  {
+    href: "/admin/form",
+    label: "Form",
+    icon: LineChart,
+  },
+];
+
+const Sidebar = () => {
+  const pathname = usePathname(); // Dapatkan path URL saat ini
+
+  return (
+    <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
+      <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
+        {/* Map item navigasi dari array */}
+        {navItems.map((item) => {
+          const Icon = item.icon;
+          // Cek apakah link ini aktif, bisa menggunakan startsWith untuk sub-halaman
+          const isActive = pathname.startsWith(item.href); 
+
+          return (
+            <TooltipProvider key={item.label}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Link
+                    href={item.href}
+                    className={cn(
+                      "flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8",
+                      isActive
+                        ? "bg-primary text-primary-foreground" // Style jika AKTIF
+                        : "text-muted-foreground" // Style jika TIDAK AKTIF
+                    )}
+                  >
+                    <Icon className="h-5 w-5" />
+                    <span className="sr-only">{item.label}</span>
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent side="right">{item.label}</TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          );
+        })}
+      </nav>
+
+      {/* Navigasi Bawah (Contoh: Settings) */}
+      <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">  
+        <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
               <Link
-                href="/admin/form"
-                className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-              >
-                <LineChart className="h-5 w-5" />
-                <span className="sr-only">Form</span>
-              </Link>
-            </TooltipTrigger>
-            <TooltipContent side="right">Form</TooltipContent>
-          </Tooltip>
-          </TooltipProvider>
-          <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Link
-                href="/admin/analytics"
-                className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-              >
-                <LineChart className="h-5 w-5" />
-                <span className="sr-only">Analytics</span>
-              </Link>
-            </TooltipTrigger>
-            <TooltipContent side="right">Analytics</TooltipContent>
-          </Tooltip>
-          </TooltipProvider>
-        </nav>
-        <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">  
-          <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Link
-                href="#"
-                className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                href="/admin/settings" // Ganti dengan path settings
+                className={cn(
+                  "flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8",
+                  pathname === "/admin/settings" && "bg-primary text-primary-foreground"
+                )}
               >
                 <Settings className="h-5 w-5" />
                 <span className="sr-only">Settings</span>
@@ -128,11 +102,10 @@ function Sidebar() {
             </TooltipTrigger>
             <TooltipContent side="right">Settings</TooltipContent>
           </Tooltip>
-          
-          </TooltipProvider>
-        </nav>
-      </aside>
-  )
-}
+        </TooltipProvider>
+      </nav>
+    </aside>
+  );
+};
 
-export default Sidebar
+export default Sidebar;
