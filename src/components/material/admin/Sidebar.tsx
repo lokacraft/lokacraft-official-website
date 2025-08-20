@@ -9,7 +9,9 @@ import {
   Handshake,
   FolderOpen,
   Settings,
-  Package, // Ganti dengan ikon yang sesuai
+  PenTool,
+  Package
+   // Ganti dengan ikon yang sesuai
 } from "lucide-react";
 import {
   Tooltip,
@@ -40,6 +42,11 @@ const navItems = [
     href: "/admin/dashboard/portfolio1", // Path disesuaikan
     label: "Portfolio",
     icon: FolderOpen,
+  },
+  {
+    href: "/admin/dashboard/projects", // Path disesuaikan
+    label: "Portfolio",
+    icon: PenTool,
   },
   {
     href: "/admin/form",

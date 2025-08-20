@@ -19,6 +19,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import Image from "next/image";
+import { Badge } from "@/components/ui/badge";
+
 
 // Tipe data umum untuk props, bisa diperluas jika perlu
 type Item = any;
@@ -160,12 +162,81 @@ const getPortfolioColumns = (onEdit: (item: Item) => void, onDelete: (item: Item
   { id: "actions", header: "Action", cell: ({ row }) => <ActionsCell item={row.original} onEdit={onEdit} onDelete={onDelete} /> },
 ];
 
+
+
+// tabel projek
+const getProjectsColumns = (onEdit: (item: any) => void, onDelete: (item: any) => void): ColumnDef<any>[] => [
+  { 
+    accessorKey: "name", 
+    header: "Project Name",
+    sortingFn: 'alphanumeric',
+  },
+  { 
+    accessorKey: "projectId", 
+    header: "Project ID",
+  },
+  { 
+    accessorKey: "status", 
+    header: "Status",
+    cell: ({ row }) => {
+      const status = row.getValue("status") as string;
+      return <Badge variant={status === 'Completed' ? 'default' : 'secondary'}>{status}</Badge>
+    }
+  },
+  { 
+    accessorKey: "type", 
+    header: "Type",
+  },
+  {
+    accessorKey: "updatedOn",
+    header: "Updated On",
+    cell: ({ row }) => {
+      const date = row.getValue("updatedOn") as any;
+      if (date && typeof date.toDate === 'function') {
+        return <div>{date.toDate().toLocaleDateString('id-ID', { year: 'numeric', month: 'short', day: 'numeric' })}</div>;
+      }
+      return <div>-</div>;
+    },
+  },
+  { 
+    accessorKey: "domainStatus", 
+    header: "Domain Status",
+    cell: ({ row }) => {
+      const status = row.getValue("domainStatus") as boolean;
+      return <Badge variant={status ? 'default' : 'destructive'}>{status ? 'Active' : 'Inactive'}</Badge>
+    }
+  },
+  { 
+    accessorKey: "securityStatus", 
+    header: "Security Status",
+    cell: ({ row }) => {
+      const status = row.getValue("securityStatus") as boolean;
+      return <Badge variant={status ? 'default' : 'destructive'}>{status ? 'Secure' : 'Insecure'}</Badge>
+    }
+  },
+  { 
+    accessorKey: "description", 
+    header: "Description",
+    cell: ({ row }) => <ViewTextDialog title={row.getValue("name")} content={row.getValue("description")} />
+  },
+  { 
+    accessorKey: "link", 
+    header: "Link",
+    cell: ({ row }) => {
+      const link = row.getValue("link") as string;
+      return link ? <a href={link} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View Link</a> : '-';
+    }
+  },
+  { id: "actions", header:"Action", cell: ({ row }) => <ActionsCell item={row.original} onEdit={onEdit} onDelete={onDelete} /> },
+];
+
 // Peta untuk menghubungkan nama kategori dari URL ke definisi kolomnya
 const columnsFunctionsMap: Record<string, (onEdit: (item: Item) => void, onDelete: (item: Item) => void) => ColumnDef<Item>[]> = {
   partnerships1: getPartnershipsColumns,
   products1: getProductsColumns,
   achievements1: getAchievementsColumns,
   portfolio1: getPortfolioColumns,
+  projects :getProjectsColumns
 };
 
 // Fungsi utama untuk mendapatkan kolom yang benar

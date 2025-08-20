@@ -31,7 +31,7 @@ export default function LoginForm() {
             const rememberMe = form.rememberMe.checked;
             try {
                   await signIn(username, password, rememberMe);
-                  router.replace("/admin/analytics")
+                  router.replace("/admin/dashboard/[category]/partnerships1")
             } catch (e) {
                   console.error(e);
             }

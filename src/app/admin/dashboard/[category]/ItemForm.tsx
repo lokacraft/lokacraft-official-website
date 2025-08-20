@@ -9,6 +9,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { DatePicker } from "../../../../components/ui/date-picker";
 import { Timestamp } from "firebase/firestore";
 
+import { Select, SelectTrigger, SelectValue, SelectItem, SelectContent } from "@/components/ui/select";
+
 interface ItemData {
   id?: string;
   [key: string]: any;
@@ -22,7 +24,7 @@ interface ItemFormProps {
   initialData?: ItemData | null;
 }
 
-type FieldType = "text" | "number" | "textarea" | "date" | "url";
+type FieldType = "text" | "number" | "textarea" | "date" | "url" | "boolean";
 
 interface FieldSchema {
   name: string;
@@ -61,6 +63,17 @@ const categorySchemas: Record<string, FieldSchema[]> = {
     { name: "link", label: "Project Link", type: "url", placeholder: "https://..." },
     { name: "imageUrl", label: "Image URL", type: "url", placeholder: "https://..." },
   ],
+  projects: [
+    { name: "name", label: "Project Name", type: "text", placeholder: "e.g., Company Website Revamp" },
+    { name: "projectId", label: "Project ID", type: "text", placeholder: "e.g., PROJ-001" },
+    { name: "status", label: "Status", type: "text", placeholder: "e.g., In Progress, Completed" },
+    { name: "type", label: "Type", type: "text", placeholder: "e.g., Web Development" },
+    { name: "description", label: "Description", type: "textarea", placeholder: "Deskripsi singkat proyek..." },
+    { name: "link", label: "Project Link", type: "url", placeholder: "https://..." },
+    { name: "updatedOn", label: "Updated On", type: "date" },
+    { name: "domainStatus", label: "Domain Status", type: "boolean" },
+    { name: "securityStatus", label: "Security Status", type: "boolean" },
+  ],
 };
 
 export const ItemForm = ({ isOpen, onOpenChange, onSave, category, initialData }: ItemFormProps) => {
@@ -90,6 +103,22 @@ export const ItemForm = ({ isOpen, onOpenChange, onSave, category, initialData }
     const value = formData[field.name];
 
     switch (field.type) {
+      case "boolean": // <-- KASUS BARU UNTUK DROPDOWN BOOLEAN
+        return (
+          <Select
+            value={value === true ? 'true' : value === false ? 'false' : ''}
+            onValueChange={(val) => handleChange(field.name, val === 'true')}
+          >
+            <SelectTrigger id={field.name} className="col-span-3">
+              <SelectValue placeholder="Select status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="true">True</SelectItem>
+              <SelectItem value="false">False</SelectItem>
+            </SelectContent>
+          </Select>
+        );
+
       case "date":
         return (
           <DatePicker
