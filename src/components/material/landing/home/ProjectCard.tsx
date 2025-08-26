@@ -1,0 +1,221 @@
+"use client";
+
+import type React from "react";
+
+import Link from "next/link";
+import { HiOutlineArrowLongRight } from "react-icons/hi2";
+import { useRef, useState, useEffect } from "react";
+
+interface project {
+  id: string;
+  title: string;
+  description: string;
+  techStack: string[];
+  image: string;
+}
+
+const projects: project[] = [
+  {
+    id: "lokacraft",
+    title: "Perpenka Website Development",
+    description:
+      "A full-scale website development project for LokaCraft, designed to enhance their online presence and streamline their services.",
+    techStack: ["Website", "NGO", "Dynamic"],
+    image: "/images/home/project1.png",
+  },
+  {
+    id: "lokaaqua",
+    title: "LokaAqua Platform Development",
+    description:
+      "A comprehensive water treatment management platform designed to monitor and optimize water treatment processes efficiently.",
+    techStack: ["Platform", "IoT", "Monitoring"],
+    image: "/images/home/project2.png",
+  },
+  {
+    id: "lokaedu",
+    title: "LokaEdu Learning Platform",
+    description:
+      "An innovative educational technology platform that transforms traditional learning experiences into engaging digital interactions.",
+    techStack: ["Education", "Platform", "Interactive"],
+    image: "/images/home/project3.png",
+  },
+  {
+    id: "lokacraft",
+    title: "LokaCraft Website Development",
+    description:
+      "A full-scale website development project for LokaCraft, designed to enhance their online presence and streamline their services.",
+    techStack: ["Website", "SaaS", "Dynamic"],
+    image: "/images/home/project1.png",
+  },
+  {
+    id: "lokaaqua",
+    title: "LokaAqua Platform Development",
+    description:
+      "A comprehensive water treatment management platform designed to monitor and optimize water treatment processes efficiently.",
+    techStack: ["Platform", "IoT", "Monitoring"],
+    image: "/images/home/project2.png",
+  },
+  {
+    id: "lokaedu",
+    title: "LokaEdu Learning Platform",
+    description:
+      "An innovative educational technology platform that transforms traditional learning experiences into engaging digital interactions.",
+    techStack: ["Education", "Platform", "Interactive"],
+    image: "/images/home/project3.png",
+  },
+];
+
+const ProjectCard = () => {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      container.scrollLeft += e.deltaY;
+    };
+
+    container.addEventListener("wheel", handleWheel, { passive: false });
+
+    return () => {
+      container.removeEventListener("wheel", handleWheel);
+    };
+  }, []);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!scrollContainerRef.current) return;
+    setIsDragging(true);
+    setStartX(e.pageX - scrollContainerRef.current.offsetLeft);
+    setScrollLeft(scrollContainerRef.current.scrollLeft);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || !scrollContainerRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - scrollContainerRef.current.offsetLeft;
+    const walk = (x - startX) * 2; // Multiply by 2 for faster scrolling
+    scrollContainerRef.current.scrollLeft = scrollLeft - walk;
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseLeave = () => {
+    setIsDragging(false);
+  };
+
+  return (
+    <div className="w-full py-12 px-[15vh] border-y border-y-[#ABFA54] bg-[#121212]">
+      <div className="max-w-7xl mx-auto">
+        <div className="w-full flex flex-row gap-y-5 relative ">
+          <div className="pt-5">
+            <div className="p-4 size-[60px] rounded-full bg-[#ABFA54] text-center justify-center items-center flex">
+              <h1 className="text-[46px] font-normal text-black">6</h1>
+            </div>
+          </div>
+          <div className="flex flex-col  ml-4 lg:justify-start leading-tight mt-5 pb-5 pl-5  w-[90%]">
+            <div className="text-[#ABFA54] w-50 text-[20px]">
+              Our Projects
+            </div>
+            <h1 className="text-[42px] font-medium">
+              Works That Tell of Our Commitment
+            </h1>
+          </div>
+        </div>
+        {/* Horizontal Scrollable Carousel */}
+        <div
+          ref={scrollContainerRef}
+          className={`overflow-x-auto px-[15vh] pb-4 ${
+            isDragging ? "cursor-grabbing" : "cursor-grab"
+          }`}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseLeave}
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        >
+          <div className="flex gap-6 min-w-max">
+            {projects.map((project) => (
+              <div
+                key={project.id}
+                className="flex-shrink-0 w-80 h-96 rounded-2xl overflow-hidden relative select-none"
+              >
+                <div
+                  className="absolute inset-0 bg-cover bg-center"
+                  style={{ backgroundImage: `url(${project.image})` }}
+                >
+                  <div className="absolute inset-0 bg-black/60"></div>
+                </div>
+
+                <div className="relative z-10 p-6 h-full flex flex-col justify-between text-white">
+                  <div>
+                    <p className="text-sm leading-relaxed opacity-90">
+                      {project.description}
+                    </p>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div className="flex flex-wrap gap-2">
+                      {project.techStack.map((tech, index) => (
+                        <div
+                          key={index}
+                          className="rounded-full p-[1px] bg-gradient-to-b from-[#ABFA54] to-[#7400B8]"
+                        >
+                          {/* KOTAK DALAM (Konten) - Dengan posisi 'relative' */}
+                          <div className="relative bg-[#121212] text-white rounded-full py-[2px] px-[7px] group overflow-hidden">
+                            {/* --- LAPISAN GRADASI UNTUK HOVER --- */}
+                            <div
+                              className="absolute inset-0 bg-gradient-to-b from-[#ABFA54] to-[#7400B8] 
+                   opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out"
+                            />
+
+                            {/* --- KONTEN TEKS --- */}
+                            {/* Diberi 'relative' agar berada di atas lapisan gradasi hover */}
+                            <h2 className="relative text-xs font-normal">
+                              {tech}
+                            </h2>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    <h3 className="text-xl font-bold leading-tight">
+                      {project.title}
+                    </h3>
+
+                    <Link
+                      href="/about"
+                      className="text-[14px] font-semibold mt-auto flex items-center gap-x-2"
+                    >
+                      <span className="bg-gradient-to-r from-[#ABFA54] to-[#7400B8] text-transparent bg-clip-text">
+                        Visit Website{" "}
+                      </span>
+                      <HiOutlineArrowLongRight className="size-6 text-[#7400B8]" />
+                      {/* <ArrowRight className="text-lg" /> */}
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Scroll Indicator */}
+        <div className="flex justify-center mt-4">
+          <p className="text-sm text-muted-foreground">
+            ← Drag or scroll to see all projects →
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ProjectCard;

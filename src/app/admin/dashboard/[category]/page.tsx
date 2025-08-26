@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button";
 import { ItemForm } from "./ItemForm";
 import { DeleteConfirmDialog } from "./DeleteConfirmDialog";
 import { toast } from "sonner"; // <-- 1. Impor 'toast'
+import { LoaderFive } from "@/components/ui/loader";
+import React from "react";
 
 export default function CategoryPage({ params }: { params: { category: string } }) {
   const [data, setData] = useState<DocumentData[]>([]);
@@ -97,11 +99,13 @@ export default function CategoryPage({ params }: { params: { category: string } 
     return () => unsubscribe();
   }, [params.category]);
 
-  if (isLoading) return <div className="p-6 text-center text-muted-foreground">Loading data...</div>;
+  if (isLoading) return <div className="absolute inset-0 z-10 flex items-center justify-center backdrop-blur-sm rounded-lg">
+    <LoaderFive text="Loading Data. . ."></LoaderFive>
+  </div>;
   if (!columns) return <div className="p-6 text-center text-red-500">Tabel untuk kategori &apos;{params.category}&apos; tidak ditemukan.</div>;
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 relative">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-semibold capitalize">{params.category.replace('1', '')}</h1>
         <Button onClick={handleAddNew}>Tambah Data Baru</Button>

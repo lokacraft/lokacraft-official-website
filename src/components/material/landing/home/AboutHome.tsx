@@ -1,48 +1,71 @@
-import { ArrowRight } from 'lucide-react'
-import Link from 'next/link'
-import React from 'react'
+import { HiOutlineArrowLongRight } from "react-icons/hi2";
+import Link from "next/link";
+import React from "react";
 
-            
-import About from "../../../../../public/images/home/abotNewBanner.png"
-import Image from 'next/image'
+import AboutUs from "../../../../../public/images/about/AboutUs.png";
+import Image from "next/image";
 
 function AboutHome() {
   return (
-    <div className='w-full p-8 flex flex-col gap-y-5'>
+    <div className="w-full h-full p-[15vh] relative flex flex-row gap-x-4 border-y border-y-[#ABFA54] bg-[#121212] mx-auto">
       {/* header */}
-      <h1 className="text-lg font-semibold text-blue-500">1. About Us</h1>
-      {/* body */}
-      <div className="flex flex-col lg:flex-row gap-y-6 items-center lg:justify-between">
-            {/* top */}
-            <div className="lg:hidden w-full">
-                  <div className="w-full h-[400px] bg-gray-600 rounded-lg">
-                        <Image src={About} alt="perpenka" width={1000} height={1000} quality={100} className='w-full h-full object-cover' />
-                  </div>
-            </div>
-            {/* left */}
-            <div className="flex flex-col gap-y-3 lg:flex-[0.45]">
-                  <h1 className="text-head-home">
-                  Our Journey: Crafting the Future, Honoring the Past
-                  </h1>
-                  <span className="text-lg font-light">
-                  ArthaLoka Technology is a tech company dedicated to creating solutions that integrate digital innovation with the core values of each industry.
-                  </span>
-                  <Link href="/about" className='text-lg font-semibold flex items-center gap-x-2 mt-10'>
-                  <span>Learn More</span>
-                  <ArrowRight className='text-lg' />
-                  </Link>
-            </div>
-            {/*right */}
-            <div className="hidden lg:inline-flex lg:flex-[0.45]">
-                  <div className="w-full h-[400px]">
-                        <Image src={About} alt="perpenka" width={1000} height={1000} quality={100} className='w-full h-full object-cover' />
-                  </div>
-            </div>
-
+      <div className="pt-5 w-[5%] mx-auto">
+        <div className="p-4 size-[60px] rounded-full bg-[#ABFA54] text-center justify-center items-center flex">
+          <h1 className="text-[46px] font-normal text-black">1</h1>
+        </div>
       </div>
-      
+      {/* body */}
+      <div className="flex flex-col lg:flex-col w-[50%] items-start ml-4 lg:justify-start mx-auto">
+        <div className="text-[#ABFA54] w-40 p-2 text-[20px]">About Us</div>
+        {/* top */}
+        <div className="lg:hidden bg-red-300">
+          <div className=" bg-gray-600 rounded-lg">
+            <Image
+              src={AboutUs}
+              alt="perpenka"
+              quality={100}
+              layout="fill"
+              className="size-[30] object-contain"
+            />
+          </div>
+        </div>
+        {/* left */}
+        <div className="flex flex-col gap-y-3 lg:flex-[0.45]">
+          <h1 className="text-white text-[42px] font-medium leading-snug">
+            Our Philosophy: The Soul of <br />
+            Our Innovation
+          </h1>
+          <span className="text-[22px] font-light leading-tight">
+            Our story at Arthaloka Technology began with the belief <br />
+            that technology, when used wisely, can bridge the gap <br />
+            between tradition and innovation. We are a pioneer in <br />
+            providing human-centered technology solutions.
+          </span>
+          <Link
+            href="/about"
+            className="text-lg font-semibold flex items-center gap-x-2 mt-2"
+          >
+            <span className="bg-gradient-to-r from-[#ABFA54] to-[#7400B8] text-transparent bg-clip-text">
+              Learn More{" "}
+            </span>
+            <HiOutlineArrowLongRight className="size-10 text-[#7400B8]" />
+            {/* <ArrowRight className="text-lg" /> */}
+          </Link>
+        </div>
+      </div>
+      {/*right */}
+      <div className="hidden relative lg:flex  pl-10 rounded-lg">
+        <div className=" h-[450px] w-[550px] rounded-lg">
+          <Image
+            src={AboutUs}
+            alt="perpenka"
+            layout="fill"
+            className="object-cover rounded-2xl flex"
+          />
+        </div>
+      </div>
     </div>
-  )
+  );
 }
 
-export default AboutHome
+export default AboutHome;

@@ -1,32 +1,50 @@
-import Image from 'next/image'
-import React from 'react'
-import Banner from "../../../../../public/images/product/ProductBanner.png"
-import { TextGenerateEffect } from '@/components/ui/text-generate-effect'
-import Link from 'next/link'
+"use client";
+
+import React from "react";
+import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
+
+const motto = (
+  <div className="leading-[100px]">
+    Innovative Platforms to <br />
+    <span className="bg-gradient-to-r from-[#ABFA54] to-[#7400B8] text-transparent bg-clip-text">
+      Accelerate Your Growth
+    </span>
+  </div>
+);
+
+const desc = (
+  <div className="text-white text-center font-normal text-[38px] mt-[50px]">
+    Discover our suite of ready-to-use SaaS products, designed with <br />
+    a human-centered approach to solve your business challenges <br />
+    efficiently and effectively.
+  </div>
+);
 
 function Hero() {
-      const words = ` Discover our suite of ready-to-use SaaS products, designed with a human-centered approach to solve your business challenges efficiently and effectively.`
   return (
-    <div className="w-full h-[75vh] relative flex items-center justify-center">
-      {/* Image */}
-      <Image src={Banner} alt="about banner" width={1400} height={1400} quality={100} className='h-full w-full object-cover' />
-      {/* absolute */}
-      <div className="absolute top-0 left-0 w-screen h-full flex flex-col justify-center gap-y-8 p-8">
-            <h1 className="text-4xl lg:text-5xl w-full lg:w-[50%]">Innovative Platforms to Accelerate Your Growth</h1>
-            <h1 className="font-thin text-xl w-full lg:w-[50%]">
-              {words}
-            </h1>
-            <button className="p-[3px] relative w-[220px]">
-            <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg" />
-            <Link href={"https://lokacraft.arthaloka.tech"} >
-              <div className="px-8 py-2  bg-black rounded-[6px]  relative group transition duration-200 text-white hover:bg-transparent">
-                Lets Work Together
-              </div>
-            </Link>
-            </button>
+    <div className="p-8 inset-0 flex items-center justify-center flex-col bg-[#121212]">
+      <h1 className="text-[94px] text-white text-center font-normal -mt-[100px] lg:mt-[100px]">
+        <TextGenerateEffect duration={3} words={motto} />
+      </h1>
+      <TextGenerateEffect duration={3} words={desc} />
+      <div className="rounded-full my-[50px] p-[1px] bg-gradient-to-b from-[#ABFA54] to-[#7400B8]">
+        {/* KOTAK DALAM (Konten) - Dengan posisi 'relative' */}
+        <div className="relative bg-[#121212] text-white rounded-full py-[4px] px-[18px] group overflow-hidden">
+          {/* --- LAPISAN GRADASI UNTUK HOVER --- */}
+          <div
+            className="absolute inset-0 bg-gradient-to-b from-[#ABFA54] to-[#7400B8] 
+                   opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out"
+          />
+
+          {/* --- KONTEN TEKS --- */}
+          {/* Diberi 'relative' agar berada di atas lapisan gradasi hover */}
+          <h2 className="relative text-[36px] font-light">
+            Lets Work Together
+          </h2>
+        </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default Hero
+export default Hero;

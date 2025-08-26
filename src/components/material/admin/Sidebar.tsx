@@ -47,12 +47,7 @@ const navItems = [
     href: "/admin/dashboard/projects", // Path disesuaikan
     label: "Portfolio",
     icon: PenTool,
-  },
-  {
-    href: "/admin/form",
-    label: "Form",
-    icon: LineChart,
-  },
+  }
 ];
 
 const Sidebar = () => {
@@ -74,7 +69,7 @@ const Sidebar = () => {
                   <Link
                     href={item.href}
                     className={cn(
-                      "flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8",
+                      "flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground hover:bg-black/60 md:h-8 md:w-8",
                       isActive
                         ? "bg-primary text-primary-foreground" // Style jika AKTIF
                         : "text-muted-foreground" // Style jika TIDAK AKTIF
@@ -84,7 +79,7 @@ const Sidebar = () => {
                     <span className="sr-only">{item.label}</span>
                   </Link>
                 </TooltipTrigger>
-                <TooltipContent side="right">{item.label}</TooltipContent>
+                <TooltipContent side="right" className='bg-black text-white'>{item.label}</TooltipContent>
               </Tooltip>
             </TooltipProvider>
           );

@@ -18,6 +18,15 @@ const config = {
   		}
   	},
   	extend: {
+		fontFamily: {
+        // 'sans' adalah font default untuk teks biasa
+        // Dengan ini, semua elemen akan otomatis menggunakan Funnel Display
+        sans: ['"Funnel Display"', 'sans-serif'],
+        
+        // Anda juga bisa memberinya nama kustom
+        funnel: ['"Funnel Display"', "sans-serif"],
+		montserrat: ['var(--font-montserrat)', 'sans-serif'],
+      },
   		colors: {
   			border: 'hsl(var(--border))',
   			input: 'hsl(var(--input))',
