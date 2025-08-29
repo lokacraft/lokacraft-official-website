@@ -31,6 +31,11 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'placehold.co'
       },
+      {
+        protocol: "https",
+        hostname: "pub-164ac564b8fb4c219730214d5e6c77ac.r2.dev", // ganti sesuai punyamu / custom domain
+        pathname: "/**",
+      },
     ]
   }
 };

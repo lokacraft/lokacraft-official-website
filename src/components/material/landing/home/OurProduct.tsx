@@ -10,9 +10,9 @@ const OurProduct = () => {
           <h1 className="text-[46px] font-normal text-black">4</h1>
         </div>
       </div>
-      <div className="flex flex-col  ml-4 lg:justify-start  w-[90%]">
+      <div className="flex flex-col  ml-6 mt-2 leading-none lg:justify-start  w-[90%]">
         <div className="text-[#ABFA54] w-50 p-2 text-[20px]">Our Product</div>
-        <h1 className="text-[42px] font-medium p-2 mb-10">
+        <h1 className="text-[42px] font-medium p-2 mb-5">
           Ready-to-Use Platform to Accelerate Your Growth
         </h1>
         <ProductCard/>

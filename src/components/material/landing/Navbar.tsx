@@ -48,7 +48,7 @@ function Navbar() {
           height={500}
           className="size-12"
         />
-        <div className={`${showNavbar === false ? "hidden" : "flex flex-col"}`}>
+        <div className={`${showNavbar === false ? "flex" : "flex flex-col"}`}>
           <p className="text-[15px] font-bold leading-4">
             ARTHA LOKA <br />
             TECHNOLOGY
@@ -59,8 +59,8 @@ function Navbar() {
       <div
         className={`${
           showNavbar === false
-            ? "hidden flex-1 lg:flex lg:items-center lg:justify-center space-x-8 text-[26px]"
-            : "hidden flex-1 lg:flex lg:items-center lg:justify-center space-x-8 text-[26px]"
+            ? "hidden flex-1 lg:flex lg:items-center lg:justify-center space-x-10 text-[24px] font-extralight"
+            : "hidden flex-1 lg:flex lg:items-center lg:justify-center space-x-10 text-[24px] font-extralight"
         }`}
       >
         <a
@@ -91,7 +91,7 @@ function Navbar() {
           href={"/portfolio"}
           className="hover:scale-105 hover:text-[#1E86FF] transition-all ease-in duration-150"
         >
-          Portfolio
+          Portofolio
         </a>
         <a
           href={"/blog"}
@@ -116,7 +116,7 @@ function Navbar() {
 
             {/* --- KONTEN TEKS --- */}
             {/* Diberi 'relative' agar berada di atas lapisan gradasi hover */}
-            <h2 className="relative text-[26px] font-normal">Contact Us</h2>
+            <h2 className="relative text-[24px] font-normal">Contact Us</h2>
           </div>
         </div>
       </a>

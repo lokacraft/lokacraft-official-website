@@ -145,18 +145,18 @@ const ProjectCard = () => {
             {projects.map((project) => (
               <div
                 key={project.id}
-                className="flex-shrink-0 w-80 h-96 rounded-2xl overflow-hidden relative select-none"
+                className="flex-shrink-0 w-[30rem] h-[30rem] rounded-2xl overflow-hidden relative select-none"
               >
                 <div
                   className="absolute inset-0 bg-cover bg-center"
                   style={{ backgroundImage: `url(${project.image})` }}
                 >
-                  <div className="absolute inset-0 bg-black/60"></div>
+                  <div className="absolute inset-0 bg-black/70"></div>
                 </div>
 
                 <div className="relative z-10 p-6 h-full flex flex-col justify-between text-white">
                   <div>
-                    <p className="text-sm leading-relaxed opacity-90">
+                    <p className="text-[24px] leading-tight font-thin opacity-90">
                       {project.description}
                     </p>
                   </div>
@@ -170,15 +170,10 @@ const ProjectCard = () => {
                         >
                           {/* KOTAK DALAM (Konten) - Dengan posisi 'relative' */}
                           <div className="relative bg-[#121212] text-white rounded-full py-[2px] px-[7px] group overflow-hidden">
-                            {/* --- LAPISAN GRADASI UNTUK HOVER --- */}
-                            <div
-                              className="absolute inset-0 bg-gradient-to-b from-[#ABFA54] to-[#7400B8] 
-                   opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out"
-                            />
 
                             {/* --- KONTEN TEKS --- */}
                             {/* Diberi 'relative' agar berada di atas lapisan gradasi hover */}
-                            <h2 className="relative text-xs font-normal">
+                            <h2 className="relative text-[16px] font-normal">
                               {tech}
                             </h2>
                           </div>
@@ -186,13 +181,13 @@ const ProjectCard = () => {
                       ))}
                     </div>
 
-                    <h3 className="text-xl font-bold leading-tight">
+                    <h3 className="text-[40px] font-semibold leading-none">
                       {project.title}
                     </h3>
 
                     <Link
                       href="/about"
-                      className="text-[14px] font-semibold mt-auto flex items-center gap-x-2"
+                      className="text-[18px] font-semibold mt-auto flex items-center gap-x-2"
                     >
                       <span className="bg-gradient-to-r from-[#ABFA54] to-[#7400B8] text-transparent bg-clip-text">
                         Visit Website{" "}

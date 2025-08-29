@@ -7,7 +7,7 @@ import Image from "next/image";
 
 function AboutHome() {
   return (
-    <div className="w-full h-full p-[15vh] relative flex flex-row gap-x-4 border-y border-y-[#ABFA54] bg-[#121212] mx-auto">
+    <div className="w-full h-full p-[15vh] relative flex flex-row gap-x-6 border-y border-y-[#ABFA54] bg-[#121212] mx-auto">
       {/* header */}
       <div className="pt-5 w-[5%] mx-auto">
         <div className="p-4 size-[60px] rounded-full bg-[#ABFA54] text-center justify-center items-center flex">
@@ -15,7 +15,7 @@ function AboutHome() {
         </div>
       </div>
       {/* body */}
-      <div className="flex flex-col lg:flex-col w-[50%] items-start ml-4 lg:justify-start mx-auto">
+      <div className="flex flex-col lg:flex-col w-[50%] items-start ml-4 mt-2 lg:justify-start mx-auto">
         <div className="text-[#ABFA54] w-40 p-2 text-[20px]">About Us</div>
         {/* top */}
         <div className="lg:hidden bg-red-300">
@@ -31,11 +31,11 @@ function AboutHome() {
         </div>
         {/* left */}
         <div className="flex flex-col gap-y-3 lg:flex-[0.45]">
-          <h1 className="text-white text-[42px] font-medium leading-snug">
+          <h1 className="text-white text-[40px] font-medium leading-snug">
             Our Philosophy: The Soul of <br />
             Our Innovation
           </h1>
-          <span className="text-[22px] font-light leading-tight">
+          <span className="text-[20px] font-light leading-tight">
             Our story at Arthaloka Technology began with the belief <br />
             that technology, when used wisely, can bridge the gap <br />
             between tradition and innovation. We are a pioneer in <br />

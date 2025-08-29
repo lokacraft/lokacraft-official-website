@@ -130,7 +130,7 @@ const ProductCard = () => {
             {products.map((product) => (
               <div
                 key={product.id}
-                className="flex-col flex w-[400px] h-[430px] rounded-2xl relative select-none"
+                className="flex-col flex w-[400px] h-[400px] rounded-2xl relative select-none"
               >
                 {/* Gradient Background */}
                 <div className="flex relative w-[400px] h-[350px]">
@@ -144,10 +144,10 @@ const ProductCard = () => {
                 </div>
 
                 {/* Card Content */}
-                <div className="relative z-10 p-6 h-full flex flex-col justify-between text-white">
+                <div className="relative z-10 h-full flex flex-col justify-between text-white">
                   {/* Description */}
-                  <div className="flex-1 my-4">
-                    <p className="text-sm leading-relaxed opacity-90 line-clamp-6">
+                  <div className="flex my-4">
+                    <p className="text-[20px] font-light leading-tight text-justify opacity-90 line-clamp-6">
                       {product.description}
                     </p>
                   </div>
@@ -155,7 +155,7 @@ const ProductCard = () => {
                   {/* Learn More Button */}
                   <Link
                     href="/product"
-                    className="text-[14px] font-semibold mt-auto flex items-center gap-x-2"
+                    className="text-[20px] font-semibold mt-auto flex items-center gap-x-2"
                   >
                     <span className="bg-gradient-to-r from-[#ABFA54] to-[#7400B8] text-transparent bg-clip-text">
                       Learn More{" "}

@@ -2,26 +2,49 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { DataTable } from "@/components/data-table";
-import { collection, onSnapshot, doc, addDoc, updateDoc, deleteDoc, DocumentData } from "firebase/firestore";
+import {
+  collection,
+  onSnapshot,
+  doc,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  DocumentData,
+} from "firebase/firestore";
 import { db } from "../../../../../firebase";
 import { getColumnsForCategory } from "./columns";
 import { Button } from "@/components/ui/button";
 import { ItemForm } from "./ItemForm";
 import { DeleteConfirmDialog } from "./DeleteConfirmDialog";
-import { toast } from "sonner"; // <-- 1. Impor 'toast'
+import { toast } from "sonner";
 import { LoaderFive } from "@/components/ui/loader";
 import React from "react";
+
+// IMPORTANT: client-side env var must start with NEXT_PUBLIC_
+const R2_PUBLIC_URL = process.env.NEXT_PUBLIC_R2_PUBLIC_URL ?? "";
+
+interface BaseItem {
+  id: string;
+  [key: string]: any;
+}
+
+interface Product extends BaseItem {
+  title?: string;
+  tag?: string;
+  description?: string;
+  imageFileName?: string;
+}
 
 export default function CategoryPage({ params }: { params: { category: string } }) {
   const [data, setData] = useState<DocumentData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // State untuk mengontrol dialog
+  // Dialog state
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<DocumentData | null>(null);
 
-  // --- Handlers untuk CRUD ---
+  // --- Handlers ---
   const handleAddNew = () => {
     setSelectedItem(null);
     setIsFormOpen(true);
@@ -37,96 +60,185 @@ export default function CategoryPage({ params }: { params: { category: string } 
     setIsDeleteConfirmOpen(true);
   };
 
+  // --- Helper khusus products ---
+  const uploadImageIfNeeded = async (
+    fileOrName: File | string | undefined | null,
+    oldFileName?: string
+  ): Promise<string | undefined> => {
+    if (!fileOrName) return oldFileName; // no change
+    if (typeof fileOrName === "string") return fileOrName; // unchanged filename stored
+
+    // upload baru ke R2
+    const fd = new FormData();
+    fd.append("file", fileOrName);
+
+    const res = await fetch("/api/products/upload", {
+      method: "POST",
+      body: fd,
+    });
+
+    if (!res.ok) {
+      const msg = await res.text();
+      throw new Error(`Upload gagal: ${msg}`);
+    }
+
+    const json = await res.json();
+    // server ideally returns { key } (filename) — handle both { key } or { url }
+    let key: string | undefined = json?.key;
+    if (!key && json?.url) {
+      try {
+        key = new URL(json.url).pathname.split("/").filter(Boolean).pop();
+      } catch {
+        key = String(json.url).split("/").pop();
+      }
+    }
+
+    if (!key) throw new Error("Upload sukses tapi server tidak mengembalikan nama file (key).");
+
+    // hapus file lama kalau ada (non-fatal)
+    if (oldFileName) {
+      await fetch("/api/products/delete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ key: oldFileName }),
+      }).catch(() => {
+        console.warn("Gagal menghapus file lama di R2 (non-fatal).");
+      });
+    }
+
+    return key;
+  };
+
+  // --- Save (Create & Update) ---
   const handleSave = async (formData: any) => {
     try {
       const isEditMode = !!formData.id;
-      if (isEditMode) {
-        // Update data
-        const { id, ...dataToUpdate } = formData;
-        const docRef = doc(db, params.category, id);
-        await updateDoc(docRef, dataToUpdate);
-      } else {
-        // Tambah data baru
-        await addDoc(collection(db, params.category), formData);
+      let payload = { ...formData };
+
+      // === khusus products ===
+      if (params.category === "products") {
+        const imageFileNameToSave = await uploadImageIfNeeded(
+          formData.imageFileName,
+          isEditMode ? (selectedItem as any)?.imageFileName : undefined
+        );
+
+        payload = {
+          ...formData,
+          imageFileName: imageFileNameToSave,
+        };
       }
+
+      if (isEditMode) {
+        const { id, ...dataToUpdate } = payload;
+        await updateDoc(doc(db, params.category, id), dataToUpdate);
+      } else {
+        await addDoc(collection(db, params.category), payload);
+      }
+
       setIsFormOpen(false);
-      // 2. Tampilkan notifikasi berhasil
-      toast.success(`Data berhasil di${isEditMode ? 'perbarui' : 'simpan'}!`);
-    } catch (error) {
+      toast.success(`Data berhasil di${isEditMode ? "perbarui" : "simpan"}!`);
+    } catch (error: any) {
       console.error("Error saving data:", error);
-      toast.error("Gagal menyimpan data."); // Notifikasi jika gagal
+      toast.error(error?.message || "Gagal menyimpan data.");
     }
   };
 
+  // --- Delete ---
   const handleConfirmDelete = async () => {
     if (selectedItem?.id) {
       try {
         await deleteDoc(doc(db, params.category, selectedItem.id));
+
+        // === khusus products, hapus juga di R2 ===
+        if (params.category === "products" && (selectedItem as any).imageFileName) {
+          await fetch("/api/products/delete", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ key: (selectedItem as any).imageFileName }),
+          }).catch(() => {
+            console.warn("Gagal menghapus file di R2");
+          });
+        }
+
         toast.success("Data berhasil dihapus!");
       } catch (error) {
         console.error("Error deleting data:", error);
-        toast.error("Gagal menghapus data."); // Notifikasi jika gagal
+        toast.error("Gagal menghapus data.");
       }
     }
     setIsDeleteConfirmOpen(false);
   };
-  
-  // --- Definisi Kolom ---
-  // Fungsi-fungsi handler (handleEdit, handleDelete) dibuat di sini
-  // dan diteruskan ke getColumnsForCategory
+
+  // --- Columns ---
   const columns = useMemo(() => {
     const getColumnsFunc = getColumnsForCategory(params.category);
     if (!getColumnsFunc) return null;
-    // Panggil fungsi yang mengembalikan definisi kolom dengan handler yang benar
-    return getColumnsFunc(handleEdit, handleDelete);
-  }, [params.category]); // Dependency array di sini hanya perlu params.category
 
-  // --- Fetch Data ---
-  useEffect(() => {
-    setIsLoading(true);
-    const unsubscribe = onSnapshot(collection(db, params.category), (snapshot) => {
-        const items = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        const itemsWithStaticNumber = items.map((item, index) => ({
-        ...item,
-        staticNumber: index + 1, // Nomor dimulai dari 1
-      }));
-        setData(itemsWithStaticNumber);
-        setIsLoading(false);
-    }, (error) => {
-        console.error("Error fetching data:", error);
-        setIsLoading(false);
-    });
-    return () => unsubscribe();
+    // call with the original expected args only (onEdit, onDelete).
+    // columns.tsx should itself read NEXT_PUBLIC_R2_PUBLIC_URL if it needs public URL.
+    return getColumnsFunc(handleEdit, handleDelete);
   }, [params.category]);
 
-  if (isLoading) return <div className="absolute inset-0 z-10 flex items-center justify-center backdrop-blur-sm rounded-lg">
-    <LoaderFive text="Loading Data. . ."></LoaderFive>
-  </div>;
-  if (!columns) return <div className="p-6 text-center text-red-500">Tabel untuk kategori &apos;{params.category}&apos; tidak ditemukan.</div>;
+  // --- Fetch Data (Firestore) ---
+  useEffect(() => {
+    setIsLoading(true);
+
+    const unsubscribe = onSnapshot(
+      collection(db, params.category),
+      (snapshot) => {
+        // cast doc.data() as any so we can access imageFileName without TS error
+        const items = snapshot.docs.map((docItem) => ({ id: docItem.id, ...(docItem.data() as any) }));
+
+        const withStaticNumber = items.map((item: any, index: number) => {
+          const base = { ...item, staticNumber: index + 1 };
+
+          // tambahkan URL image kalau products
+          if (params.category === "products" && item.imageFileName) {
+            return {
+              ...base,
+              imageUrl: R2_PUBLIC_URL ? `${R2_PUBLIC_URL}/${item.imageFileName}` : item.imageFileName,
+            };
+          }
+          return base;
+        });
+
+        setData(withStaticNumber);
+        setIsLoading(false);
+      },
+      (error) => {
+        console.error("Error fetching data:", error);
+        setIsLoading(false);
+      }
+    );
+
+    return () => unsubscribe();
+  }, [params.category]); // keep listening to category
+
+  if (isLoading)
+    return (
+      <div className="absolute inset-0 z-10 flex items-center justify-center backdrop-blur-sm rounded-lg">
+        <LoaderFive text="Loading Data. . ." />
+      </div>
+    );
+  if (!columns)
+    return (
+      <div className="p-6 text-center text-red-500">
+        Tabel untuk kategori &apos;{params.category}&apos; tidak ditemukan.
+      </div>
+    );
 
   return (
     <div className="flex flex-col gap-4 relative">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-semibold capitalize">{params.category.replace('1', '')}</h1>
+        <h1 className="text-2xl font-semibold capitalize">{params.category.replace("1", "")}</h1>
         <Button onClick={handleAddNew}>Tambah Data Baru</Button>
       </div>
-      
-      {/* DataTable hanya menerima data dan kolom, bukan fungsi */}
+
       <DataTable columns={columns} data={data} />
-      
-      {/* Komponen Dialog tetap di sini, dikontrol oleh state dari halaman ini */}
-      <ItemForm
-        isOpen={isFormOpen}
-        onOpenChange={setIsFormOpen}
-        onSave={handleSave}
-        category={params.category}
-        initialData={selectedItem}
-      />
-      <DeleteConfirmDialog
-        isOpen={isDeleteConfirmOpen}
-        onOpenChange={setIsDeleteConfirmOpen}
-        onConfirm={handleConfirmDelete}
-      />
+
+      <ItemForm isOpen={isFormOpen} onOpenChange={setIsFormOpen} onSave={handleSave} category={params.category} initialData={selectedItem} />
+
+      <DeleteConfirmDialog isOpen={isDeleteConfirmOpen} onOpenChange={setIsDeleteConfirmOpen} onConfirm={handleConfirmDelete} />
     </div>
   );
 }

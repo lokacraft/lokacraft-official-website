@@ -32,19 +32,19 @@ function VisiMisi() {
           <h1 className="text-[46px] font-normal text-black">2</h1>
         </div>
       </div>
-      <div className="flex flex-col items-start ml-4 lg:justify-start">
-        <div className="text-[#ABFA54] w-50 p-2 text-[20px]">
+      <div className="flex flex-col leading-tight items-start ml-8 mt-4 lg:justify-start">
+        <div className="text-[#ABFA54] w-50 px-2 text-[20px]">
           Our Vision & Mission
         </div>
-        <h1 className="text-[42px] font-medium p-2">
+        <h1 className="text-[42px] font-medium px-2 py-1">
           Driven by Innovation, Anchored by Values
         </h1>
         <div className="gap-y-5 mt-5 flex flex-col p-2">
           {/* vision */}
-          <h1 className="text-lg font-semibold text-[#ABFA54] text-[20px]">
+          <h1 className="text-[24px] font-semibold text-[#ABFA54]">
             Vision
           </h1>
-          <p className="text-[22px] font-light leading-tight">
+          <p className="text-[20px] font-light leading-tight">
             Our story at Arthaloka Technology began with the belief that
             technology, when used wisely, can bridge the gap between <br />
             tradition and innovation. We are a pioneer in providing
@@ -53,11 +53,11 @@ function VisiMisi() {
 
           {/* Mission */}
 
-          <h1 className="text-lg font-semibold text-[#ABFA54] text-[20px]">
+          <h1 className="font-semibold text-[#ABFA54] text-[24px]">
             Mission
           </h1>
         </div>
-          <div className="p-8 justify-start items-start w-full flex">
+          <div className="py-8 justify-start items-start w-full flex">
             <FocusCards1 cards={cards} />
           </div>
       </div>

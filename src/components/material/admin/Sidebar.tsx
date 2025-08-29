@@ -4,13 +4,13 @@ import React from 'react';
 import Link from "next/link";
 import { usePathname } from "next/navigation"; // Impor hook usePathname
 import {
-  LineChart,
   Trophy,
   Handshake,
   FolderOpen,
   Settings,
   PenTool,
-  Package
+  Package,
+  Newspaper
    // Ganti dengan ikon yang sesuai
 } from "lucide-react";
 import {
@@ -29,7 +29,7 @@ const navItems = [
     icon: Handshake,
   },
   {
-    href: "/admin/dashboard/products1", // Path disesuaikan
+    href: "/admin/dashboard/products", // Path disesuaikan
     label: "Products",
     icon: Package,
   },
@@ -47,6 +47,11 @@ const navItems = [
     href: "/admin/dashboard/projects", // Path disesuaikan
     label: "Portfolio",
     icon: PenTool,
+  },
+  {
+    href: "/admin/dashboard/blogs", // Path disesuaikan
+    label: "Blogs",
+    icon: Newspaper,
   }
 ];
 

@@ -34,11 +34,11 @@ const AboutUs = () => {
         About Us
       </h1>
       <div className="flex flex-col text-center relative  mt-5 py-10">
-        <h1 className="text-[94px] z-10 text-center leading-none mb-10 bg-transparent">
+        <h1 className="text-[92px] z-10 font-light text-center leading-none mb-16 bg-transparent">
           Our Philosophy: The <br />
           Soul of Our Innovation
         </h1>
-        <p className="text-[40px] z-10 text-center font-light leading-none bg-transparent">
+        <p className="text-[38px] z-10 text-center font-thin leading-tight bg-transparent">
           Our story at ArthaLoka Technology began with the belief that <br />
           technology, when used wisely, can bridge the gap between <br />
           tradition and innovation. We are a pioneer in providing <br />
@@ -54,15 +54,15 @@ const AboutUs = () => {
         </div>
       </div>
       <div className="my-[30vh] flex flex-col  h-full w-[85%]">
-        <h1 className="text-[94px] font-regular text-center leading-none">
+        <h1 className="text-[88px] font-regular text-center leading-snug">
           Driven by Innovation, <br />
           Anchored by Values
         </h1>
         <div className="flex flex-row w-full justify-start gap-x-[12vw] p-8 mt-[70px] mx-auto items-start">
-          <h3 className="text-[62px] text-[#ABFA54]  font-normal pl-11">
+          <h3 className="text-[62px] text-[#ABFA54]  font-normal pl-11 -translate-y-3">
             Vision
           </h3>
-          <p className="text-left text-[40px] font-light  leading-tight">
+          <p className="text-left text-[38px] font-light leading-tight">
             Our story at ArthaLoka Technology began <br />
             with the belief that technology, when used <br />
             wisely, can bridge the gap between <br />
@@ -71,8 +71,8 @@ const AboutUs = () => {
             solutions.
           </p>
         </div>
-        <div className="flex flex-row w-full justify-start gap-x-[0vw] p-8 mt-[70px] mx-auto items-start">
-          <h3 className="text-[62px] text-[#ABFA54]  font-normal pl-11">
+        <div className="flex flex-row w-full justify-start p-8 mt-[70px] mx-auto items-start">
+          <h3 className="text-[62px] text-[#ABFA54] flex font-normal pl-11 -translate-y-4">
             Mission
           </h3>
           <FocusCards2 cards={cards}></FocusCards2>
