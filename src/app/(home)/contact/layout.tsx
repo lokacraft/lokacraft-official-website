@@ -5,10 +5,13 @@ export default function ContactLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
+    <html>
+      <body>
+        
       <Navbar />
       <main>{children}</main>
       {/* TIDAK ADA FOOTER DI SINI */}
-    </>
+      </body>
+    </html>
   );
 }

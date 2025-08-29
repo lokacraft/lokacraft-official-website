@@ -27,7 +27,7 @@ export default function HomeLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ParallaxProviders>
+    // <ParallaxProviders>
       <main
         className={`text-white bg-[#121212] w-screen overflow-x-hidden min-h-screen flex flex-col ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
@@ -37,6 +37,6 @@ export default function HomeLayout({
             </div>
             <Footer />
       </main>
-    </ParallaxProviders>
+    // </ParallaxProviders>
   );
 }

@@ -39,7 +39,7 @@ export function IndustriesMarquee() {
           {[...industries, ...industries].map((item, index) => (
             <span 
               key={index}
-              className="text-[55px] sm:text-[60px] font-semibold whitespace-nowrap
+              className="text-[55px] sm:text-[60px] font-thin whitespace-nowrap
                          bg-gradient-to-t from-[#7400B8] to-[#ABFA54]
                          text-transparent bg-clip-text" // Trik untuk teks gradasi
             >

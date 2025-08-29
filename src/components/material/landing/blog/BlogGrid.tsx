@@ -1,48 +1,71 @@
 "use client";
 
-import React from "react";
-import Link from "next/link";
+import { useEffect, useState } from "react";
+import { collection, onSnapshot, Timestamp } from "firebase/firestore";
+import { db } from "../../../../../firebase";
 import { BlogPostCards } from "./BlogPostCard";
 
-// Impor gambar Anda
-import blog1 from "../../../../../public/images/blog/blog1.png";
-import blog2 from "../../../../../public/images/blog/blog2.png";
-import blog3 from "../../../../../public/images/blog/blog3.png";
-
-// Data sampel berdasarkan screenshot Anda
-const blogPosts = [
-  {
-    slug: "masa-depan-ai",
-    image: blog1,
-    tag: "Ini Topik Blog",
-    title: "Masa Depan AI dalam Kehidupan Sehari-hari",
-    date: "22 Agustus 2025",
-  },
-  {
-    slug: "aplikasi-cloud-umkm",
-    image: blog2,
-    tag: "Topik Lain",
-    title: "Aplikasi Cloud untuk Efisiensi UMKM",
-    date: "22 Agustus 2025",
-  },
-  {
-    slug: "bisnis-teknologi",
-    image: blog3,
-    tag: "Bisnis",
-    title: "Digitalisasi untuk UMKM: Langkah Kecil, Dampak Besar",
-    date: "22 Agustus 2025",
-  },
-];
+interface BlogPost {
+  id: string;
+  slug: string;
+  title: string;
+  tags: string[];
+  imageFileName: string;
+  imageUrl: string;
+  publishedDate?: Timestamp | null;
+}
 
 export function BlogGrid() {
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+  const r2PublicUrl = process.env.NEXT_PUBLIC_R2_PUBLIC_URL;
+
+  useEffect(() => {
+    const q = collection(db, "blogs");
+    const unsub = onSnapshot(q, (snap) => {
+      const list: BlogPost[] = [];
+      snap.forEach((docSnap) => {
+        const data = docSnap.data() as Omit<BlogPost, "id" | "imageUrl">;
+        list.push({
+          id: docSnap.id,
+          ...data,
+          imageUrl: `${r2PublicUrl}/${data.imageFileName}`
+        });
+      });
+      setBlogPosts(list);
+    });
+
+    return () => unsub();
+  }, [r2PublicUrl]);
+
+  // mapping untuk BlogPostCards
+  const mappedCards = blogPosts.map((b) => ({
+    slug: b.slug,
+    image: b.imageUrl,
+    tag: b.tags?.[0] || "",
+    title: b.title,
+    date: b.publishedDate
+      ? new Date(b.publishedDate.seconds * 1000).toLocaleDateString("id-ID", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        })
+      : "",
+  }));
+
   return (
     <section className="w-full bg-[#121212] text-white flex justify-center items-center py-[25vh]">
       <div className="mx-auto">
         <h2 className="text-[84px] font-bold text-center mb-12">
           Beberapa yang Sedang Hangat
         </h2>
-          <BlogPostCards cards={blogPosts} />
-          {/* Kontainer Grid */}
+
+        {mappedCards.length > 0 ? (
+          <BlogPostCards cards={mappedCards} />
+        ) : (
+          <p className="text-center text-white my-10">
+            Belum ada artikel tersedia.
+          </p>
+        )}
       </div>
     </section>
   );

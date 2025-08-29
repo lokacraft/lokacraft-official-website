@@ -35,7 +35,11 @@ interface Product extends BaseItem {
   imageFileName?: string;
 }
 
-export default function CategoryPage({ params }: { params: { category: string } }) {
+export default function CategoryPage({
+  params,
+}: {
+  params: { category: string };
+}) {
   const [data, setData] = useState<DocumentData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -61,78 +65,104 @@ export default function CategoryPage({ params }: { params: { category: string } 
   };
 
   // --- Helper khusus products ---
-  const uploadImageIfNeeded = async (
-    fileOrName: File | string | undefined | null,
-    oldFileName?: string
-  ): Promise<string | undefined> => {
-    if (!fileOrName) return oldFileName; // no change
-    if (typeof fileOrName === "string") return fileOrName; // unchanged filename stored
+  // const uploadImageIfNeeded = async (
+  //   fileOrName: File | string | undefined | null,
+  //   oldFileName?: string
+  // ): Promise<string | undefined> => {
+  //   if (!fileOrName) return oldFileName; // no change
+  //   if (typeof fileOrName === "string") return fileOrName; // unchanged filename stored
 
-    // upload baru ke R2
-    const fd = new FormData();
-    fd.append("file", fileOrName);
+  //   // upload baru ke R2
+  //   const fd = new FormData();
+  //   fd.append("file", fileOrName);
 
-    const res = await fetch("/api/products/upload", {
-      method: "POST",
-      body: fd,
-    });
+  //   const res = await fetch("/api/products/upload", {
+  //     method: "POST",
+  //     body: fd,
+  //   });
 
-    if (!res.ok) {
-      const msg = await res.text();
-      throw new Error(`Upload gagal: ${msg}`);
-    }
+  //   if (!res.ok) {
+  //     const msg = await res.text();
+  //     throw new Error(`Upload gagal: ${msg}`);
+  //   }
 
-    const json = await res.json();
-    // server ideally returns { key } (filename) — handle both { key } or { url }
-    let key: string | undefined = json?.key;
-    if (!key && json?.url) {
-      try {
-        key = new URL(json.url).pathname.split("/").filter(Boolean).pop();
-      } catch {
-        key = String(json.url).split("/").pop();
-      }
-    }
+  //   const json = await res.json();
+  //   // server ideally returns { key } (filename) — handle both { key } or { url }
+  //   let key: string | undefined = json?.key;
+  //   if (!key && json?.url) {
+  //     try {
+  //       key = new URL(json.url).pathname.split("/").filter(Boolean).pop();
+  //     } catch {
+  //       key = String(json.url).split("/").pop();
+  //     }
+  //   }
 
-    if (!key) throw new Error("Upload sukses tapi server tidak mengembalikan nama file (key).");
+  //   if (!key)
+  //     throw new Error(
+  //       "Upload sukses tapi server tidak mengembalikan nama file (key)."
+  //     );
 
-    // hapus file lama kalau ada (non-fatal)
-    if (oldFileName) {
-      await fetch("/api/products/delete", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ key: oldFileName }),
-      }).catch(() => {
-        console.warn("Gagal menghapus file lama di R2 (non-fatal).");
-      });
-    }
+  //   // hapus file lama kalau ada (non-fatal)
+  //   if (oldFileName) {
+  //     await fetch("/api/products/delete", {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify({ key: oldFileName }),
+  //     }).catch(() => {
+  //       console.warn("Gagal menghapus file lama di R2 (non-fatal).");
+  //     });
+  //   }
 
-    return key;
-  };
+  //   return key;
+  // };
 
   // --- Save (Create & Update) ---
   const handleSave = async (formData: any) => {
     try {
       const isEditMode = !!formData.id;
-      let payload = { ...formData };
 
-      // === khusus products ===
-      if (params.category === "products") {
-        const imageFileNameToSave = await uploadImageIfNeeded(
-          formData.imageFileName,
-          isEditMode ? (selectedItem as any)?.imageFileName : undefined
-        );
+      if (
+        params.category === "products" ||
+        params.category === "achievements" ||
+        params.category === "projects" ||
+        params.category === "portfolios" ||
+        params.category === "blogs" ||
+        params.category === "partnerships"
+      ) {
+        // 🔥 langsung lempar ke API yang sesuai
+        const fd = new FormData();
+        Object.entries(formData).forEach(([key, value]) => {
+          if (value instanceof File) {
+            fd.append("image", value);
+          } else if (value != null) {
+            fd.append(key, value as any);
+          }
+        });
 
-        payload = {
-          ...formData,
-          imageFileName: imageFileNameToSave,
-        };
-      }
+        let res: Response;
+        const endpoint = `/api/${params.category}`;
 
-      if (isEditMode) {
-        const { id, ...dataToUpdate } = payload;
-        await updateDoc(doc(db, params.category, id), dataToUpdate);
+        if (isEditMode) {
+          res = await fetch(`${endpoint}/${formData.id}`, {
+            method: "PUT",
+            body: fd,
+          });
+        } else {
+          res = await fetch(endpoint, {
+            method: "POST",
+            body: fd,
+          });
+        }
+
+        if (!res.ok) throw new Error("Gagal menyimpan data");
       } else {
-        await addDoc(collection(db, params.category), payload);
+        // 🔥 kategori lain → Firestore langsung
+        if (isEditMode) {
+          const { id, ...dataToUpdate } = formData;
+          await updateDoc(doc(db, params.category, id), dataToUpdate);
+        } else {
+          await addDoc(collection(db, params.category), formData);
+        }
       }
 
       setIsFormOpen(false);
@@ -147,17 +177,25 @@ export default function CategoryPage({ params }: { params: { category: string } 
   const handleConfirmDelete = async () => {
     if (selectedItem?.id) {
       try {
-        await deleteDoc(doc(db, params.category, selectedItem.id));
-
-        // === khusus products, hapus juga di R2 ===
-        if (params.category === "products" && (selectedItem as any).imageFileName) {
-          await fetch("/api/products/delete", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ key: (selectedItem as any).imageFileName }),
-          }).catch(() => {
-            console.warn("Gagal menghapus file di R2");
-          });
+        if (
+          params.category === "products" ||
+          params.category === "achievements" ||
+          params.category === "projects" ||
+          params.category === "portfolios" ||
+          params.category === "blogs" ||
+          params.category === "partnerships"
+        ) {
+          // 🔥 langsung call API delete
+          const res = await fetch(
+            `/api/${params.category}/${selectedItem.id}`,
+            {
+              method: "DELETE",
+            }
+          );
+          if (!res.ok) throw new Error("Gagal menghapus data");
+        } else {
+          // 🔥 kategori lain → Firestore langsung
+          await deleteDoc(doc(db, params.category, selectedItem.id));
         }
 
         toast.success("Data berhasil dihapus!");
@@ -187,17 +225,31 @@ export default function CategoryPage({ params }: { params: { category: string } 
       collection(db, params.category),
       (snapshot) => {
         // cast doc.data() as any so we can access imageFileName without TS error
-        const items = snapshot.docs.map((docItem) => ({ id: docItem.id, ...(docItem.data() as any) }));
+        const items = snapshot.docs.map((docItem) => ({
+          id: docItem.id,
+          ...(docItem.data() as any),
+        }));
 
         const withStaticNumber = items.map((item: any, index: number) => {
           const base = { ...item, staticNumber: index + 1 };
 
           // tambahkan URL image kalau products
-          if (params.category === "products" && item.imageFileName) {
-            return {
-              ...base,
-              imageUrl: R2_PUBLIC_URL ? `${R2_PUBLIC_URL}/${item.imageFileName}` : item.imageFileName,
-            };
+          if (
+            params.category === "products" ||
+            params.category === "achievements" ||
+            params.category === "projects" ||
+            params.category === "portfolios" ||
+            params.category === "blogs" ||
+            params.category === "partnerships"
+          ) {
+            if (item.imageFileName) {
+              return {
+                ...base,
+                imageUrl: R2_PUBLIC_URL
+                  ? `${R2_PUBLIC_URL}/${item.imageFileName}`
+                  : item.imageFileName,
+              };
+            }
           }
           return base;
         });
@@ -230,15 +282,27 @@ export default function CategoryPage({ params }: { params: { category: string } 
   return (
     <div className="flex flex-col gap-4 relative">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-semibold capitalize">{params.category.replace("1", "")}</h1>
+        <h1 className="text-2xl font-semibold capitalize">
+          {params.category.replace("1", "")}
+        </h1>
         <Button onClick={handleAddNew}>Tambah Data Baru</Button>
       </div>
 
       <DataTable columns={columns} data={data} />
 
-      <ItemForm isOpen={isFormOpen} onOpenChange={setIsFormOpen} onSave={handleSave} category={params.category} initialData={selectedItem} />
+      <ItemForm
+        isOpen={isFormOpen}
+        onOpenChange={setIsFormOpen}
+        onSave={handleSave}
+        category={params.category}
+        initialData={selectedItem}
+      />
 
-      <DeleteConfirmDialog isOpen={isDeleteConfirmOpen} onOpenChange={setIsDeleteConfirmOpen} onConfirm={handleConfirmDelete} />
+      <DeleteConfirmDialog
+        isOpen={isDeleteConfirmOpen}
+        onOpenChange={setIsDeleteConfirmOpen}
+        onConfirm={handleConfirmDelete}
+      />
     </div>
   );
 }

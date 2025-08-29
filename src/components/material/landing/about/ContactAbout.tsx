@@ -10,7 +10,7 @@ function ContactAbout() {
   return (
     <ParallaxBanner className="aspect-[2/1] w-screen h-[55vh]">
       <div className="absolute inset-0 flex flex-col px-[15vh] items-center justify-center gap-y-12 p-6 bg=[#121212] border-y border-y-[#ABFA54]">
-        <h1 className="text-[84px] 2xl:text-8xl font-semibold leading-none text-center 2xl:text-left bg-gradient-to-r from-[#ABFA54] to-[#7400B8] text-transparent bg-clip-text">
+        <h1 className="text-[78px] 2xl:text-8xl font-semibold leading-none text-center 2xl:text-left bg-gradient-to-r from-[#ABFA54] to-[#7400B8] text-transparent bg-clip-text">
           Ready to Build Your Website?
         </h1>
         <div className="flex items-center justify-center w-full gap-x-5 flex-row">
@@ -26,7 +26,7 @@ function ContactAbout() {
 
               {/* --- KONTEN TEKS --- */}
               {/* Diberi 'relative' agar berada di atas lapisan gradasi hover */}
-              <h2 className="relative text-[46px] font-normal">Get Started</h2>
+              <h2 className="relative text-[38px] font-normal">Get Started</h2>
             </div>
           </div>
           {/* button 2 */}
@@ -41,7 +41,7 @@ function ContactAbout() {
 
               {/* --- KONTEN TEKS --- */}
               {/* Diberi 'relative' agar berada di atas lapisan gradasi hover */}
-              <h2 className="relative text-[46px] font-normal">Contact Us</h2>
+              <h2 className="relative text-[38px] font-normal">Contact Us</h2>
             </div>
           </div>
         </div>

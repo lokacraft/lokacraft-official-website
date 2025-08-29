@@ -4,7 +4,7 @@ import React from "react";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 
 const motto = (
-  <div className="leading-[100px]">
+  <div className="leading-[80px] text-[80px]">
     Innovative Platforms to <br />
     <span className="bg-gradient-to-r from-[#ABFA54] to-[#7400B8] text-transparent bg-clip-text">
       Accelerate Your Growth
@@ -13,7 +13,7 @@ const motto = (
 );
 
 const desc = (
-  <div className="text-white text-center font-normal text-[38px] mt-[50px]">
+  <div className="text-white text-center font-thin leading-tight text-[38px] mt-[50px]">
     Discover our suite of ready-to-use SaaS products, designed with <br />
     a human-centered approach to solve your business challenges <br />
     efficiently and effectively.

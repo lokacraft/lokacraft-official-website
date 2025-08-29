@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { r2 } from "@/lib/r2";
+import { R2Client } from "@/lib/r2";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { randomUUID } from "crypto";
 
@@ -16,12 +16,12 @@ export async function POST(req: Request) {
 
   const key = `${file.name}`;
 
-  await r2.send(new PutObjectCommand({
-    Bucket: process.env.R2_BUCKET_NAME!,
-    Key: key,
-    Body: buffer,
-    ContentType: file.type,
-  }));
+  // await r2.send(new PutObjectCommand({
+  //   Bucket: process.env.R2_BUCKET_NAME!,
+  //   Key: key,
+  //   Body: buffer,
+  //   ContentType: file.type,
+  // }));
 
   const url = `${process.env.R2_PUBLIC_URL}/${key}`;
 

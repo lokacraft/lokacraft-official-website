@@ -26,7 +26,7 @@ const ProductPhilosophy
 
   return (
     <div className="w-full h-full px-[15vh] flex flex-col">
-      <h1 className="text-[84px] pt-12 text-center leading-snug">
+      <h1 className="text-[80px] pt-12 text-center leading-snug">
         The Philosophy Behind <br />
         Our Products
       </h1>

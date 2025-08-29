@@ -16,7 +16,7 @@ export function SolutionCard({
       className={`relative w-[400px] mx-auto h-[520px] mt-[12vh] mb-[2vh] flex justify-end items-start ${className}`}
     >
       {/* Card with gradient border */}
-      <div className="relative bg-gradient-to-b from-[#ABFA54] to-[#7400B8] p-[2px] h-[415px] rounded-2xl">
+      <div className="relative bg-black p-[10px] h-[415px] rounded-2xl">
         <div className=" bg-black p-2 h-[410px] rounded-2xl overflow-hidden w-full flex flex-col">
           {/* Image */}
           <div className="relative h-[350px] w-full">
@@ -31,7 +31,7 @@ export function SolutionCard({
             {/* Content */}
             <div className="p-4 space-y-5 flex items-start  justify-start flex-col text-left">
               {/* Title */}
-              <h3 className="text-white text-center text-[24px] font-light leading-none w-full">
+              <h3 className="text-white text-left text-[24px] font-thin leading-tight w-full">
                 {title}
               </h3>
             </div>

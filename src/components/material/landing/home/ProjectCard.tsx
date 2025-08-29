@@ -1,76 +1,49 @@
 "use client";
 
 import type React from "react";
-
 import Link from "next/link";
 import { HiOutlineArrowLongRight } from "react-icons/hi2";
 import { useRef, useState, useEffect } from "react";
+import { db } from "../../../../../firebase";
+import { collection, onSnapshot } from "firebase/firestore";
 
-interface project {
+interface Project {
   id: string;
   title: string;
   description: string;
   techStack: string[];
-  image: string;
+  link: string;
+  imageFileName: string;
+  imageUrl: string;
 }
-
-const projects: project[] = [
-  {
-    id: "lokacraft",
-    title: "Perpenka Website Development",
-    description:
-      "A full-scale website development project for LokaCraft, designed to enhance their online presence and streamline their services.",
-    techStack: ["Website", "NGO", "Dynamic"],
-    image: "/images/home/project1.png",
-  },
-  {
-    id: "lokaaqua",
-    title: "LokaAqua Platform Development",
-    description:
-      "A comprehensive water treatment management platform designed to monitor and optimize water treatment processes efficiently.",
-    techStack: ["Platform", "IoT", "Monitoring"],
-    image: "/images/home/project2.png",
-  },
-  {
-    id: "lokaedu",
-    title: "LokaEdu Learning Platform",
-    description:
-      "An innovative educational technology platform that transforms traditional learning experiences into engaging digital interactions.",
-    techStack: ["Education", "Platform", "Interactive"],
-    image: "/images/home/project3.png",
-  },
-  {
-    id: "lokacraft",
-    title: "LokaCraft Website Development",
-    description:
-      "A full-scale website development project for LokaCraft, designed to enhance their online presence and streamline their services.",
-    techStack: ["Website", "SaaS", "Dynamic"],
-    image: "/images/home/project1.png",
-  },
-  {
-    id: "lokaaqua",
-    title: "LokaAqua Platform Development",
-    description:
-      "A comprehensive water treatment management platform designed to monitor and optimize water treatment processes efficiently.",
-    techStack: ["Platform", "IoT", "Monitoring"],
-    image: "/images/home/project2.png",
-  },
-  {
-    id: "lokaedu",
-    title: "LokaEdu Learning Platform",
-    description:
-      "An innovative educational technology platform that transforms traditional learning experiences into engaging digital interactions.",
-    techStack: ["Education", "Platform", "Interactive"],
-    image: "/images/home/project3.png",
-  },
-];
 
 const ProjectCard = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
+  const [projects, setProjects] = useState<Project[]>([]);
+  const r2PublicUrl = process.env.NEXT_PUBLIC_R2_PUBLIC_URL;
 
+  // Fetch data dari Firestore
+  useEffect(() => {
+    const q = collection(db, "projects");
+    const unsub = onSnapshot(q, (snap) => {
+      const list: Project[] = [];
+      snap.forEach((docSnap) => {
+        const data = docSnap.data() as Omit<Project, "id" | "imageUrl">;
+        list.push({
+          id: docSnap.id,
+          ...data,
+          imageUrl: `${r2PublicUrl}/${data.imageFileName}`,
+        });
+      });
+      setProjects(list);
+    });
+    return () => unsub();
+  }, [r2PublicUrl]);
+
+  // Scroll dengan mouse wheel horizontal
   useEffect(() => {
     const container = scrollContainerRef.current;
     if (!container) return;
@@ -82,7 +55,6 @@ const ProjectCard = () => {
     };
 
     container.addEventListener("wheel", handleWheel, { passive: false });
-
     return () => {
       container.removeEventListener("wheel", handleWheel);
     };
@@ -99,36 +71,33 @@ const ProjectCard = () => {
     if (!isDragging || !scrollContainerRef.current) return;
     e.preventDefault();
     const x = e.pageX - scrollContainerRef.current.offsetLeft;
-    const walk = (x - startX) * 2; // Multiply by 2 for faster scrolling
+    const walk = (x - startX) * 2;
     scrollContainerRef.current.scrollLeft = scrollLeft - walk;
   };
 
-  const handleMouseUp = () => {
-    setIsDragging(false);
-  };
-
-  const handleMouseLeave = () => {
-    setIsDragging(false);
-  };
+  const handleMouseUp = () => setIsDragging(false);
+  const handleMouseLeave = () => setIsDragging(false);
 
   return (
     <div className="w-full py-12 px-[15vh] border-y border-y-[#ABFA54] bg-[#121212]">
       <div className="max-w-7xl mx-auto">
+        {/* Header */}
         <div className="w-full flex flex-row gap-y-5 relative ">
           <div className="pt-5">
             <div className="p-4 size-[60px] rounded-full bg-[#ABFA54] text-center justify-center items-center flex">
-              <h1 className="text-[46px] font-normal text-black">6</h1>
+              <h1 className="text-[46px] font-normal text-black">
+                {projects.length}
+              </h1>
             </div>
           </div>
-          <div className="flex flex-col  ml-4 lg:justify-start leading-tight mt-5 pb-5 pl-5  w-[90%]">
-            <div className="text-[#ABFA54] w-50 text-[20px]">
-              Our Projects
-            </div>
+          <div className="flex flex-col ml-4 lg:justify-start leading-tight mt-5 pb-5 pl-5 w-[90%]">
+            <div className="text-[#ABFA54] w-50 text-[20px]">Our Projects</div>
             <h1 className="text-[42px] font-medium">
               Works That Tell of Our Commitment
             </h1>
           </div>
         </div>
+
         {/* Horizontal Scrollable Carousel */}
         <div
           ref={scrollContainerRef}
@@ -149,7 +118,7 @@ const ProjectCard = () => {
               >
                 <div
                   className="absolute inset-0 bg-cover bg-center"
-                  style={{ backgroundImage: `url(${project.image})` }}
+                  style={{ backgroundImage: `url(${project.imageUrl})` }}
                 >
                   <div className="absolute inset-0 bg-black/70"></div>
                 </div>
@@ -163,16 +132,12 @@ const ProjectCard = () => {
 
                   <div className="space-y-4">
                     <div className="flex flex-wrap gap-2">
-                      {project.techStack.map((tech, index) => (
+                      {project.techStack?.map((tech, index) => (
                         <div
                           key={index}
                           className="rounded-full p-[1px] bg-gradient-to-b from-[#ABFA54] to-[#7400B8]"
                         >
-                          {/* KOTAK DALAM (Konten) - Dengan posisi 'relative' */}
                           <div className="relative bg-[#121212] text-white rounded-full py-[2px] px-[7px] group overflow-hidden">
-
-                            {/* --- KONTEN TEKS --- */}
-                            {/* Diberi 'relative' agar berada di atas lapisan gradasi hover */}
                             <h2 className="relative text-[16px] font-normal">
                               {tech}
                             </h2>
@@ -186,14 +151,13 @@ const ProjectCard = () => {
                     </h3>
 
                     <Link
-                      href="/about"
+                      href={project.link || "/about"}
                       className="text-[18px] font-semibold mt-auto flex items-center gap-x-2"
                     >
                       <span className="bg-gradient-to-r from-[#ABFA54] to-[#7400B8] text-transparent bg-clip-text">
-                        Visit Website{" "}
+                        Visit Website
                       </span>
                       <HiOutlineArrowLongRight className="size-6 text-[#7400B8]" />
-                      {/* <ArrowRight className="text-lg" /> */}
                     </Link>
                   </div>
                 </div>

@@ -54,7 +54,7 @@ const AboutUs = () => {
         </div>
       </div>
       <div className="my-[30vh] flex flex-col  h-full w-[85%]">
-        <h1 className="text-[88px] font-regular text-center leading-snug">
+        <h1 className="text-[90px] font-regular text-center leading-tight">
           Driven by Innovation, <br />
           Anchored by Values
         </h1>
@@ -79,8 +79,8 @@ const AboutUs = () => {
         </div>
       </div>
       <div className="flex flex-col text-center justify-start items-center size-full mx-auto">
-        <h1 className="text-[94px] pt-12">The Story of Arthaloka</h1>
-        <p className="text-[40px] pt-8 leading-tight">
+        <h1 className="text-[90px] pt-12">The Story of Arthaloka</h1>
+        <p className="text-[38px] font-thin pt-8 leading-tight">
           Arthaloka Technology is a digital company committed to <br />
           delivering innovative and impactful technology solutions that <br />
           support the advancement of MSMEs, education, and industry <br />

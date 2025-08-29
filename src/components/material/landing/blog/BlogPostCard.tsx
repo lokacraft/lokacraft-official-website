@@ -46,7 +46,7 @@ export function BlogPostCard({
               </div>
 
               {/* Title */}
-              <h3 className="text-black text-[30px] font-light leading-none w-full">
+              <h3 className="text-black text-[30px] font-semibold leading-none w-full">
                 {title}
               </h3>
             </div>

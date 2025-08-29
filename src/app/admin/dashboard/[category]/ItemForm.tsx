@@ -55,9 +55,9 @@ interface FieldSchema {
 
 // --- SKEMA BARU YANG SUDAH DISESUAIKAN DENGAN COLUMNS.TSX ANDA ---
 const categorySchemas: Record<string, FieldSchema[]> = {
-  partnerships1: [
+  partnerships: [
     {
-      name: "name",
+      name: "title",
       label: "Partner Name",
       type: "text",
       placeholder: "e.g., PT. Mitra Sejati",
@@ -69,24 +69,12 @@ const categorySchemas: Record<string, FieldSchema[]> = {
       placeholder: "e.g., Active",
     },
     {
-      name: "contactPerson",
-      label: "Contact Person",
-      type: "text",
-      placeholder: "e.g., Budi Santoso",
-    },
-    {
       name: "contactEmail",
       label: "Email",
       type: "text",
       placeholder: "e.g., budi@mitra.com",
     },
-    {
-      name: "category",
-      label: "Category",
-      type: "text",
-      placeholder: "e.g., Supplier",
-    },
-    { name: "joinDate", label: "Join Date", type: "date" },
+    { name: "imageFileName", label: "Partner Logo", type: "image" },
   ],
   products: [
     // <-- Diperbarui dari 'products1' menjadi 'products'
@@ -110,7 +98,7 @@ const categorySchemas: Record<string, FieldSchema[]> = {
     },
     { name: "imageFileName", label: "Product Image", type: "image" }, // Input akan berupa upload file
   ],
-  achievements1: [
+  achievements: [
     {
       name: "title",
       label: "Title",
@@ -118,39 +106,38 @@ const categorySchemas: Record<string, FieldSchema[]> = {
       placeholder: "e.g., Productivity Award 2016",
     },
     {
-      name: "awardedBy",
-      label: "Awarded By",
+      name: "penyelenggara",
+      label: "Penyelenggara",
       type: "text",
-      placeholder: "e.g., Kementerian",
+      placeholder: "e.g., Kementerian X",
     },
-    { name: "date", label: "Date", type: "date" },
     {
       name: "description",
       label: "Description",
       type: "textarea",
       placeholder: "Deskripsi singkat pencapaian...",
     },
-    {
-      name: "certificateUrl",
-      label: "Certificate URL",
-      type: "url",
-      placeholder: "https://...",
-    },
+    { name: "imageFileName", label: "Achievement Image", type: "image" },
   ],
-  portfolio1: [
+  portfolios: [
     {
-      name: "projectName",
+      name: "title",
       label: "Project Name",
       type: "text",
-      placeholder: "e.g., Proyek Bendungan Jatiluhur",
+      placeholder: "e.g., Website. . . ",
     },
     {
-      name: "client",
-      label: "Client",
-      type: "text",
-      placeholder: "e.g., PT. Wijaya Karya",
+      name: "description",
+      label: "Description",
+      type: "textarea",
+      placeholder: "e.g., Ini adalah projek. . .",
     },
-    { name: "completionDate", label: "Completion Date", type: "date" }, // Kolom disesuaikan
+    {
+      name: "tags",
+      label: "Tags",
+      type: "tags",
+      placeholder: "React, Node.js",
+    },
     {
       name: "link",
       label: "Project Link",
@@ -158,16 +145,15 @@ const categorySchemas: Record<string, FieldSchema[]> = {
       placeholder: "https://...",
     },
     {
-      name: "imageUrl",
-      label: "Image URL",
-      type: "url",
-      placeholder: "https://...",
+      name: "imageFileName",
+      label: "Project Image",
+      type: "image",
     },
   ],
   projects: [
     {
-      name: "name",
-      label: "Project Name",
+      name: "title",
+      label: "Title",
       type: "text",
       placeholder: "e.g., Company Website Revamp",
     },
@@ -178,16 +164,22 @@ const categorySchemas: Record<string, FieldSchema[]> = {
       placeholder: "e.g., PROJ-001",
     },
     {
+      name: "type",
+      label: "Type",
+      type: "text",
+      placeholder: "e.g., Web Development",
+    },
+    {
       name: "status",
       label: "Status",
       type: "text",
       placeholder: "e.g., In Progress, Completed",
     },
     {
-      name: "type",
-      label: "Type",
-      type: "text",
-      placeholder: "e.g., Web Development",
+      name: "techStack",
+      label: "Tech Stack (pisahkan koma)",
+      type: "tags",
+      placeholder: "React, Node.js",
     },
     {
       name: "description",
@@ -201,7 +193,7 @@ const categorySchemas: Record<string, FieldSchema[]> = {
       type: "url",
       placeholder: "https://...",
     },
-    { name: "updatedOn", label: "Updated On", type: "date" },
+    { name: "imageFileName", label: "Project Image", type: "image" },
     { name: "domainStatus", label: "Domain Status", type: "boolean" },
     { name: "securityStatus", label: "Security Status", type: "boolean" },
   ],
@@ -219,12 +211,10 @@ const categorySchemas: Record<string, FieldSchema[]> = {
       placeholder: "Nama penulis...",
     },
     {
-      name: "slug",
-      label: "Slug",
-      type: "text",
-      placeholder: "e.g., judul-artikel-unik",
+      name: "isPublished",
+      label: "Status",
+      type: "boolean",
     },
-    { name: "isPublished", label: "Status", type: "boolean" },
     { name: "publishedDate", label: "Published Date", type: "date" },
     {
       name: "tags",
@@ -232,6 +222,7 @@ const categorySchemas: Record<string, FieldSchema[]> = {
       type: "tags",
       placeholder: "e.g., AI, Teknologi",
     },
+    { name: "content", label: "Content", type: "textarea" },
     {
       name: "ringkasan",
       label: "Ringkasan",
@@ -239,13 +230,17 @@ const categorySchemas: Record<string, FieldSchema[]> = {
       placeholder: "Ringkasan singkat artikel...",
     },
     {
-      name: "coverImage",
-      label: "Cover Image URL",
-      type: "url",
-      placeholder: "https://...",
+      name: "slug",
+      label: "Slug",
+      type: "text",
+      placeholder: "e.g., judul-artikel-unik",
     },
-    { name: "views", label: "Views", type: "number", placeholder: "0" },
-    { name: "content", label: "Content", type: "textarea", placeholder: "0" },
+    {
+      name: "imageFileName",
+      label: "Cover Image",
+      type: "image",
+    },
+    { name: "views", label: "Views", type: "number" },
   ],
 };
 
@@ -273,14 +268,96 @@ export const ItemForm = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // ✅ hanya untuk kategori products
-    if (category === "products") {
+    // ✅ hanya untuk kategori yang punya API khusus
+    if (
+      category === "products" ||
+      category === "achievements" ||
+      category === "projects" ||
+      category === "portfolios" ||
+      category === "blogs" ||
+      category === "partnerships"
+    ) {
       try {
         const fd = new FormData();
-        fd.append("title", formData.title || "");
-        fd.append("tag", formData.tag || "");
-        fd.append("description", formData.description || "");
 
+        // common fields for products & achievements handled earlier — kita general-kan
+        // For projects we append all expected fields
+        if (category === "partnerships") {
+          fd.append("title", formData.title || "");
+          fd.append("status", formData.status || "");
+          fd.append("contactEmail", formData.contactEmail || "");
+        }
+
+        if (category === "blogs") {
+          fd.append("title", formData.title || "");
+          fd.append("views", formData.views || "");
+          fd.append("author", formData.author || "");
+          fd.append("isPublished", formData.isPublished ? "true" : "false");
+          fd.append("ringkasan", formData.ringkasan || "");
+          fd.append("content", formData.content || "");
+          fd.append("slug", formData.slug || "");
+          fd.append(
+            "publishedDate",
+            formData.publishedDate
+              ? (formData.publishedDate as Timestamp).toDate().toISOString()
+              : ""
+          );
+          const ts = Array.isArray(formData.tags)
+            ? formData.tags
+            : formData.tags
+            ? String(formData.tags)
+                .split(",")
+                .map((s: any) => s.trim())
+            : [];
+          fd.append("tags", JSON.stringify(ts));
+          // updatedOn (optional)
+        }
+        if (category === "portfolios") {
+          fd.append("title", formData.title || "");
+          fd.append("description", formData.description || "");
+          const ts = Array.isArray(formData.tags)
+            ? formData.tags
+            : formData.tags
+            ? String(formData.tags)
+                .split(",")
+                .map((s: any) => s.trim())
+            : [];
+          fd.append("tags", JSON.stringify(ts));
+          fd.append("link", formData.link || "");
+        }
+        if (category === "projects") {
+          fd.append("title", formData.title || "");
+          fd.append("projectId", formData.projectId || "");
+          fd.append("type", formData.type || "");
+          fd.append("status", formData.status || "");
+          fd.append("description", formData.description || "");
+          fd.append("link", formData.link || "");
+          fd.append("domainStatus", formData.domainStatus ? "true" : "false");
+          fd.append(
+            "securityStatus",
+            formData.securityStatus ? "true" : "false"
+          );
+          // techStack: send as JSON string (ItemForm uses array for tags)
+          const ts = Array.isArray(formData.techStack)
+            ? formData.techStack
+            : formData.techStack
+            ? String(formData.techStack)
+                .split(",")
+                .map((s: any) => s.trim())
+            : [];
+          fd.append("techStack", JSON.stringify(ts));
+          // updatedOn (optional)
+        } else if (category === "products") {
+          fd.append("title", formData.title || "");
+          fd.append("tag", formData.tag || "");
+          fd.append("description", formData.description || "");
+        } else if (category === "achievements") {
+          fd.append("title", formData.title || "");
+          fd.append("penyelenggara", formData.penyelenggara || "");
+          fd.append("description", formData.description || "");
+        }
+
+        // handle image uniformly
         if (formData.imageFileName instanceof File) {
           fd.append("image", formData.imageFileName);
         } else if (typeof formData.imageFileName === "string") {
@@ -288,27 +365,30 @@ export const ItemForm = ({
         }
 
         let res: Response;
+        const endpoint = `/api/${category}`;
+
         if (isEditMode && formData.id) {
-          res = await fetch(`/api/products/${formData.id}`, {
+          res = await fetch(`${endpoint}/${formData.id}`, {
             method: "PUT",
             body: fd,
           });
         } else {
-          res = await fetch("/api/products", {
+          res = await fetch(endpoint, {
             method: "POST",
             body: fd,
           });
         }
 
-        if (!res.ok) throw new Error("Failed to save product");
+        if (!res.ok) throw new Error(`Failed to save ${category}`);
 
+        // optionally, you can parse returned json and pass to onSave (but template didn't)
         onOpenChange(false);
       } catch (err) {
         console.error(err);
-        alert("Error saving product");
+        alert(`Error saving ${category}`);
       }
     } else {
-      // ✅ untuk kategori lain, tetap pakai sistem lama
+      // ✅ untuk kategori lain, tetap pakai sistem lama (langsung onSave → Firestore)
       onSave(formData);
     }
   };

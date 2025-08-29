@@ -11,8 +11,8 @@ function AboutPage() {
       {/* Hero */}
       <Hero />
       <div className="pt-[40vh] gap-10 text-center flex justify-center flex-col items-center w-full mx-auto">
-        <h1 className="text-[86px] font-light">Our Flagship Products</h1>
-        <p className="text-[34px] font-extralight">
+        <h1 className="text-[80px] font-light">Our Flagship Products</h1>
+        <p className="text-[30px] font-extralight leading-tight">
           We provide comprehensive solutions for all your business <br />
           needs, from marketing to management, with fast, <br />
           professional, and reliable products.

@@ -1,24 +1,68 @@
-import Image from 'next/image'
-import React from 'react'
-import Perpenka from "../../../../../public/images/home/Perpenka.png"
-import Calanusa from "../../../../../public/images/home/Calanusa.png"
-import Nomadique from "../../../../../public/images/home/Nomadique.png"
-import Kosen from "../../../../../public/images/home/Kosen.png"
-import Pama from "../../../../../public/images/home/Pama.png"
+"use client";
 
-function FeaturedClient() {
-  return (
-    <div className='w-full'>
-      <div className="w-[90%] px-5 min-h-[25vh] flex items-center justify-between mx-auto">
-        <Image src={Perpenka} alt="perpenka" width={1000} height={1000} quality={100} className='w-[15%] object-cover' />
-        <Image src={Calanusa} alt="perpenka" width={1000} height={1000} quality={100} className='w-[15%] object-cover' />
-        <Image src={Nomadique} alt="perpenka" width={1000} height={1000} quality={100} className='w-[15%] object-cover' />
-        <Image src={Kosen} alt="perpenka" width={1000} height={1000} quality={100} className='w-[15%] object-cover' />
-        <Image src={Pama} alt="perpenka" width={1000} height={1000} quality={100} className='w-[15%] object-cover' />
-      </div>
+import React, { useEffect, useState } from "react";
+import Image from "next/image";
+import { db } from "../../../../../firebase"; // sesuaikan path
+import { collection, onSnapshot } from "firebase/firestore";
+import { motion } from "framer-motion";
 
-    </div>
-  )
+interface Partnership {
+  id: string;
+  imageFileName: string;
+  imageUrl: string;
 }
 
-export default FeaturedClient
+export default function FeaturedClient() {
+  const [partners, setPartners] = useState<Partnership[]>([]);
+  const r2PublicUrl = process.env.NEXT_PUBLIC_R2_PUBLIC_URL;
+
+  useEffect(() => {
+    const q = collection(db, "partnerships");
+    const unsub = onSnapshot(q, (snap) => {
+      const list: Partnership[] = [];
+      snap.forEach((doc) => {
+        const data = doc.data() as Omit<Partnership, "id" | "imageUrl">;
+        list.push({
+          id: doc.id,
+          ...data,
+          imageUrl: `${r2PublicUrl}/${data.imageFileName}`,
+        });
+      });
+      setPartners(list);
+    });
+
+    return () => unsub();
+  }, [r2PublicUrl]);
+
+  if (partners.length === 0) return null;
+
+  return (
+    <div className="w-full h-[180px] relative flex items-center overflow-hidden bg-[#121212]">
+      <motion.div
+        className="flex gap-[7rem] items-center"
+        animate={{ x: ["0%", "-50%"] }}
+        transition={{
+          repeat: Infinity,
+          ease: "linear",
+          duration: 30,
+        }}
+      >
+        {[...partners, ...partners].map((partner) => (
+          <div
+            key={partner.id}
+            className="flex-shrink-0 flex items-center justify-center h-full"
+            style={{ width: "auto" }}
+          >
+            <Image
+              src={partner.imageUrl}
+              alt="partner"
+              height={120} // hampir memenuhi height parent
+              width={120} // sementara width fixed, bisa diubah ke auto proporsional
+              className="object-contain"
+            />
+          </div>
+        ))}
+      </motion.div>
+    </div>
+  );
+}

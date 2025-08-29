@@ -24,7 +24,7 @@ import { cn } from "@/lib/utils";
 // Definisikan link dalam sebuah array agar lebih rapi
 const navItems = [
   {
-    href: "/admin/dashboard/partnerships1",
+    href: "/admin/dashboard/partnerships",
     label: "Partnerships",
     icon: Handshake,
   },
@@ -34,18 +34,18 @@ const navItems = [
     icon: Package,
   },
   {
-    href: "/admin/dashboard/achievements1", // Path disesuaikan
+    href: "/admin/dashboard/achievements", // Path disesuaikan
     label: "Achievements",
     icon: Trophy,
   },
   {
-    href: "/admin/dashboard/portfolio1", // Path disesuaikan
+    href: "/admin/dashboard/portfolios", // Path disesuaikan
     label: "Portfolio",
     icon: FolderOpen,
   },
   {
     href: "/admin/dashboard/projects", // Path disesuaikan
-    label: "Portfolio",
+    label: "Projects",
     icon: PenTool,
   },
   {

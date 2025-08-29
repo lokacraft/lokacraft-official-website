@@ -65,8 +65,8 @@ const HorizontalCard = ({ item }: { item: Product }) => (
           <Image
             src={item.fullImageUrl}
             alt={item.title}
-            width={600}
-            height={400}
+            width={500}
+            height={300}
             className="w-full max-w-md object-contain"
           />
         </motion.div>

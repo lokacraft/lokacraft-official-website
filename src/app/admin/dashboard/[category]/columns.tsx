@@ -127,28 +127,15 @@ const getPartnershipsColumns = (
   onEdit: (item: Item) => void,
   onDelete: (item: Item) => void
 ): ColumnDef<Item>[] => [
-  { accessorKey: "name", header: "Partner Name" },
+  { accessorKey: "title", header: "Partner Name" },
   { accessorKey: "status", header: "Status" },
-  { accessorKey: "contactPerson", header: "Contact Person" },
   { accessorKey: "contactEmail", header: "Email" },
-  { accessorKey: "category", header: "Category" },
   {
-    accessorKey: "joinDate",
-    header: "Join Date",
+    accessorKey: "imageUrl",
+    header: "Image",
     cell: ({ row }) => {
-      const date = row.getValue("joinDate") as any;
-      if (date && typeof date.toDate === "function") {
-        return (
-          <div>
-            {date.toDate().toLocaleDateString("id-ID", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
-          </div>
-        );
-      }
-      return <div>-</div>;
+      const fileName = row.getValue("imageUrl") as string;
+      return <ViewImageDialog src={fileName} alt={row.getValue("title")} />;
     },
   },
   {
@@ -207,6 +194,7 @@ const getAchievementsColumns = (
   onEdit: (item: Item) => void,
   onDelete: (item: Item) => void
 ): ColumnDef<Item>[] => [
+  numberingColumn,
   {
     accessorKey: "title",
     header: "Title",
@@ -214,26 +202,7 @@ const getAchievementsColumns = (
       <div className="font-medium">{row.getValue("title")}</div>
     ),
   },
-  { accessorKey: "awardedBy", header: "Awarded By" },
-  {
-    accessorKey: "date",
-    header: "Date",
-    cell: ({ row }) => {
-      const date = row.getValue("date") as any;
-      if (date && typeof date.toDate === "function") {
-        return (
-          <div>
-            {date.toDate().toLocaleDateString("id-ID", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
-          </div>
-        );
-      }
-      return <div>-</div>;
-    },
-  },
+  { accessorKey: "penyelenggara", header: "Penyelenggara" },
   {
     accessorKey: "description",
     header: "Description",
@@ -245,10 +214,10 @@ const getAchievementsColumns = (
     ),
   },
   {
-    accessorKey: "certificateUrl",
-    header: "Certificate",
+    accessorKey: "imageUrl",
+    header: "Image",
     cell: ({ row }) => {
-      const fileName = row.getValue("certificateUrl") as string;
+      const fileName = row.getValue("imageUrl") as string;
       return <ViewImageDialog src={fileName} alt={row.getValue("title")} />;
     },
   },
@@ -262,28 +231,65 @@ const getAchievementsColumns = (
 ];
 
 // tabel portofolio
-const getPortfolioColumns = (
+const getPortfoliosColumns = (
   onEdit: (item: Item) => void,
   onDelete: (item: Item) => void
 ): ColumnDef<Item>[] => [
+  numberingColumn,
   {
-    accessorKey: "projectName",
-    header: "Project Name",
+    accessorKey: "title",
+    header: "Title",
+    sortingFn: "alphanumeric",
     cell: ({ row }) => (
-      <div className="font-medium">{row.getValue("projectName")}</div>
+      <div className="font-medium">{row.getValue("title")}</div>
     ),
   },
-  { accessorKey: "client", header: "Client" },
-  { accessorKey: "completionDate", header: "Completion Date" },
+  {
+    accessorKey: "description",
+    header: "Description",
+    cell: ({ row }) => (
+      <ViewTextDialog
+        title={row.getValue("title")}
+        content={row.getValue("description")}
+      />
+    ),
+  },
+  {
+    accessorKey: "tags",
+    header: "Tags",
+    cell: ({ row }) => {
+      const arr = row.getValue("tags") as string[] | string | undefined;
+      if (!arr) return "-";
+      if (Array.isArray(arr)) return <div>{arr.join(", ")}</div>;
+      return <div>{String(arr)}</div>;
+    },
+  },
   {
     accessorKey: "link",
     header: "Link",
-    cell: ({ row }) => (
-      <ViewImageDialog
-        src={row.getValue("imageUrl")}
-        alt={row.getValue("projectName")}
-      />
-    ),
+    cell: ({ row }) => {
+      const link = row.getValue("link") as string;
+      return link ? (
+        <a
+          href={link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-600 hover:underline"
+        >
+          Visit Link
+        </a>
+      ) : (
+        "-"
+      );
+    },
+  },
+  {
+    accessorKey: "imageUrl",
+    header: "Image",
+    cell: ({ row }) => {
+      const fileName = row.getValue("imageUrl") as string;
+      return <ViewImageDialog src={fileName} alt={row.getValue("title")} />;
+    },
   },
   {
     id: "actions",
@@ -295,14 +301,18 @@ const getPortfolioColumns = (
 ];
 
 // tabel projek
+// ganti fungsi getProjectsColumns dengan yang ini
 const getProjectsColumns = (
   onEdit: (item: any) => void,
   onDelete: (item: any) => void
 ): ColumnDef<any>[] => [
   {
-    accessorKey: "name",
-    header: "Project Name",
+    accessorKey: "title",
+    header: "Title",
     sortingFn: "alphanumeric",
+    cell: ({ row }) => (
+      <div className="font-medium">{row.getValue("title")}</div>
+    ),
   },
   {
     accessorKey: "projectId",
@@ -314,8 +324,12 @@ const getProjectsColumns = (
     cell: ({ row }) => {
       const status = row.getValue("status") as string;
       return (
-        <Badge variant={status === "Completed" ? "default" : "secondary"}>
-          {status}
+        <Badge
+          variant={
+            status?.toLowerCase() === "completed" ? "default" : "secondary"
+          }
+        >
+          {status || "-"}
         </Badge>
       );
     },
@@ -325,22 +339,13 @@ const getProjectsColumns = (
     header: "Type",
   },
   {
-    accessorKey: "updatedOn",
-    header: "Updated On",
+    accessorKey: "techStack",
+    header: "Tech Stack",
     cell: ({ row }) => {
-      const date = row.getValue("updatedOn") as any;
-      if (date && typeof date.toDate === "function") {
-        return (
-          <div>
-            {date.toDate().toLocaleDateString("id-ID", {
-              year: "numeric",
-              month: "short",
-              day: "numeric",
-            })}
-          </div>
-        );
-      }
-      return <div>-</div>;
+      const arr = row.getValue("techStack") as string[] | string | undefined;
+      if (!arr) return "-";
+      if (Array.isArray(arr)) return <div>{arr.join(", ")}</div>;
+      return <div>{String(arr)}</div>;
     },
   },
   {
@@ -372,7 +377,7 @@ const getProjectsColumns = (
     header: "Description",
     cell: ({ row }) => (
       <ViewTextDialog
-        title={row.getValue("name")}
+        title={row.getValue("title")}
         content={row.getValue("description")}
       />
     ),
@@ -394,6 +399,14 @@ const getProjectsColumns = (
       ) : (
         "-"
       );
+    },
+  },
+  {
+    accessorKey: "imageUrl",
+    header: "Image",
+    cell: ({ row }) => {
+      const fileName = row.getValue("imageUrl") as string;
+      return <ViewImageDialog src={fileName} alt={row.getValue("title")} />;
     },
   },
   {
@@ -459,10 +472,21 @@ const getBlogsColumns = (
     accessorKey: "tags",
     header: "Tags",
     cell: ({ row }) => {
-      const tags = row.getValue("tags") as string[];
-      // Tampilkan array sebagai string yang dipisahkan koma
-      return <div>{tags?.join(", ") || "-"}</div>;
+      const arr = row.getValue("tags") as string[] | string | undefined;
+      if (!arr) return "-";
+      if (Array.isArray(arr)) return <div>{arr.join(", ")}</div>;
+      return <div>{String(arr)}</div>;
     },
+  },
+  {
+    accessorKey: "content",
+    header: "Content Blog",
+    cell: ({ row }) => (
+      <ViewTextDialog
+        title={row.getValue("title")}
+        content={row.getValue("content")}
+      />
+    ),
   },
   {
     accessorKey: "ringkasan",
@@ -475,10 +499,20 @@ const getBlogsColumns = (
     ),
   },
   {
-    accessorKey: "coverImage",
-    header: "Cover Image",
+    accessorKey: "slug",
+    header: "Slug",
+    cell: ({ row }) => (
+      <ViewTextDialog
+        title={row.getValue("title")}
+        content={row.getValue("slug")}
+      />
+    ),
+  },
+  {
+    accessorKey: "imageUrl",
+    header: "Image",
     cell: ({ row }) => {
-      const fileName = row.getValue("coverImage") as string;
+      const fileName = row.getValue("imageUrl") as string;
       return <ViewImageDialog src={fileName} alt={row.getValue("title")} />;
     },
   },
@@ -510,10 +544,10 @@ const columnsFunctionsMap: Record<
     onDelete: (item: Item) => void
   ) => ColumnDef<Item>[]
 > = {
-  partnerships1: getPartnershipsColumns,
+  partnerships: getPartnershipsColumns,
   products: getProductsColumns,
-  achievements1: getAchievementsColumns,
-  portfolio1: getPortfolioColumns,
+  achievements: getAchievementsColumns,
+  portfolios: getPortfoliosColumns,
   projects: getProjectsColumns,
   blogs: getBlogsColumns,
 };

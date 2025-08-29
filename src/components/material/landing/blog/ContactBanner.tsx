@@ -1,8 +1,7 @@
 "use client";
 
 import React from "react";
-import { ParallaxBanner, ParallaxBannerLayer } from "react-scroll-parallax";
-import Link from "next/link";
+import { ParallaxBanner } from "react-scroll-parallax";
 
 const words = `Bridging Tradition and Innovation Through Technology`;
 function ContactBanner() {

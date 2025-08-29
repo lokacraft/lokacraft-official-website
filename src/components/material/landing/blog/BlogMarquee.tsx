@@ -1,70 +1,79 @@
 "use client";
 
-import React from "react";
-import Image, { StaticImageData } from "next/image"; // Impor StaticImageData jika belum
-import { HorizontalBlogCard } from "@/components/ui/HorizontalBlogCard"; // Sesuaikan path jika perlu
-import blog1 from "../../../../../public/images/blog/blog1.png";
-import { motion } from "framer-motion"; // Impor motion
+import { useEffect, useState } from "react";
+import { collection, onSnapshot, Timestamp } from "firebase/firestore";
+import { db } from "../../../../../firebase";
+import { motion } from "framer-motion";
+import { HorizontalBlogCard } from "@/components/ui/HorizontalBlogCard";
 
-// Tentukan tipe data untuk setiap item blog
 interface BlogPost {
-  image: StaticImageData | string;
-  tag: string;
+  id: string;
+  slug: string;
   title: string;
-  date: string;
+  tags: string[];
+  imageFileName: string;
+  imageUrl: string;
+  publishedDate?: Timestamp | null;
 }
 
-const blogPosts: BlogPost[] = [
-  // Nama diubah menjadi jamak (plural)
-  {
-    image: blog1,
-    tag: "Artificial Intelligence",
-    title: "Masa Depan AI dalam Kehidupan Sehari-hari",
-    date: "22 Agustus 2025",
-  },
-  {
-    image: blog1,
-    tag: "Web Development",
-    title: "Masa Depan AI dalam Kehidupan Sehari-hari",
-    date: "20 Agustus 2025",
-  },
-  {
-    image: blog1,
-    tag: "Teknologi",
-    title: "Masa Depan AI dalam Kehidupan Sehari-hari",
-    date: "18 Agustus 2025",
-  },
-  {
-    image: blog1,
-    tag: "Produktifitas",
-    title: "Masa Depan AI dalam Kehidupan Sehari-hari",
-    date: "15 Agustus 2025",
-  },
-];
+export const BlogMarquee = () => {
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+  const r2PublicUrl = process.env.NEXT_PUBLIC_R2_PUBLIC_URL;
 
-const BlogMarquee = () => {
+  useEffect(() => {
+    const q = collection(db, "blogs");
+    const unsub = onSnapshot(q, (snap) => {
+      const list: BlogPost[] = [];
+      snap.forEach((docSnap) => {
+        const data = docSnap.data() as Omit<BlogPost, "id" | "imageUrl">;
+        list.push({
+          id: docSnap.id,
+          ...data,
+          imageUrl: `${r2PublicUrl}/${data.imageFileName}`,
+        });
+      });
+      setBlogPosts(list);
+    });
+
+    return () => unsub();
+  }, [r2PublicUrl]);
+
+  // mapping untuk HorizontalBlogCard
+  const mappedPosts = blogPosts.map((b) => ({
+    slug: b.slug,
+    image: b.imageUrl,
+    tag: b.tags?.[0] || "",
+    title: b.title,
+    date: b.publishedDate
+      ? new Date(b.publishedDate.seconds * 1000).toLocaleDateString("id-ID", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        })
+      : "",
+  }));
+
   return (
     <div className="flex flex-col py-[10vh] bg-[linear-gradient(to_top,#7400B8_0%,#000000_59%,#7400B8_100%)] mt-[35vh] mb-[30vh]">
-        <h1 className="text-center text-[84px] font-normal mb-12">
-            Beberapa yang Sedang <br />
-            Hangat
-        </h1>
+      <h1 className="text-center text-[84px] font-normal mb-12">
+        Beberapa yang Sedang <br />
+        Hangat
+      </h1>
       <div className="relative w-full overflow-hidden py-12">
-        {/* Kontainer Marquee */}
         <motion.div
-          className="flex w-max gap-8" // w-max agar konten tidak wrap, gap untuk jarak
+          className="flex w-max gap-8"
           animate={{ x: ["0%", "-50%"] }}
           transition={{
             ease: "linear",
-            duration: 40, // Durasi bisa disesuaikan, lebih besar = lebih lambat
+            duration: 40,
             repeat: Infinity,
           }}
         >
-          {/* Duplikasi konten untuk loop yang mulus */}
-          {[...blogPosts, ...blogPosts].map((post, index) => (
-            // Beri lebar tetap agar kartu konsisten
+          {/* Duplikasi untuk loop mulus */}
+          {[...mappedPosts, ...mappedPosts].map((post, index) => (
             <div key={index} className="flex-shrink-0">
               <HorizontalBlogCard
+                slug={post.slug}
                 image={post.image}
                 tag={post.tag}
                 title={post.title}

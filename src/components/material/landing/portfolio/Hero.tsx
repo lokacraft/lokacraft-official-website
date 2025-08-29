@@ -4,7 +4,7 @@ import React from "react";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 
 const motto = (
-  <div className="leading-[100px]">
+  <div className="leading-[80px] text-[80px]">
     Our Portfolio:
     <span className="bg-gradient-to-r from-[#ABFA54] to-[#7400B8] text-transparent bg-clip-text">
       Transforming <br />
@@ -14,7 +14,7 @@ const motto = (
 );
 
 const desc = (
-  <div className="text-white text-center font-normal text-[38px] mt-[50px]">
+  <div className="text-white text-center font-thin text-[34px] mt-[50px]">
     Here are some selected projects that reflect the quality and <br />
     commitment of ArthaLoka Technology in delivering impactful <br />
     digital solutions.
@@ -39,7 +39,7 @@ function Hero() {
 
           {/* --- KONTEN TEKS --- */}
           {/* Diberi 'relative' agar berada di atas lapisan gradasi hover */}
-          <h2 className="relative text-[36px] font-light">
+          <h2 className="relative text-[34px] font-light">
             Lets Work Together
           </h2>
         </div>

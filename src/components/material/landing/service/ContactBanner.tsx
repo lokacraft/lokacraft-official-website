@@ -1,14 +1,7 @@
 "use client"
 
 import React from 'react'
-import { ParallaxBanner, ParallaxBannerLayer } from 'react-scroll-parallax';
-import Globe from "../../../../../public/images/home/globe.png"
-import Background from "../../../../../public/images/home/ContactBanner.png"
-import Image from 'next/image';
-import { TextGenerateEffect } from '@/components/ui/text-generate-effect';
-import { ShootingStars } from '@/components/ui/shooting-stars';
-import { StarsBackground } from '@/components/ui/stars-background';
-import { Button } from '@/components/ui/button';
+import { ParallaxBanner } from 'react-scroll-parallax';
 import Link from 'next/link';
 
 const words = `Have a Digital Challenge That Needs Solving?`

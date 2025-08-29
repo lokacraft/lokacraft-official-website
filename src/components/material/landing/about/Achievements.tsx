@@ -1,61 +1,81 @@
-import React from "react";
+"use client";
+
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import achievement1 from "../../../../../public/images/about/achievement1.png"
-import achievement2 from "../../../../../public/images/about/achievement2.png"
+import { db } from "../../../../../firebase";
+import { collection, onSnapshot } from "firebase/firestore";
+
+interface Achievement {
+  id: string;
+  title: string;
+  penyelenggara: string;
+  description: string;
+  imageFileName: string;
+  imageUrl: string;
+}
 
 const Achievements = () => {
+  const [achievements, setAchievements] = useState<Achievement[]>([]);
+  const r2PublicUrl = process.env.NEXT_PUBLIC_R2_PUBLIC_URL;
+
+  useEffect(() => {
+    const q = collection(db, "achievements");
+    const unsub = onSnapshot(q, (snap) => {
+      const list: Achievement[] = [];
+      snap.forEach((docSnap) => {
+        const data = docSnap.data() as Omit<Achievement, "id" | "imageUrl">;
+        list.push({
+          id: docSnap.id,
+          ...data,
+          imageUrl: `${r2PublicUrl}/${data.imageFileName}`,
+        });
+      });
+      setAchievements(list);
+    });
+    return () => unsub();
+  }, [r2PublicUrl]);
+
   return (
-    <div className="w-full h-full justify-center items-center text-center relative my-[15vh] bg-[#121212] mx-auto flex flex-col">
+    <div className="w-full justify-center items-center text-center relative my-[15vh] bg-[#121212] mx-auto flex flex-col">
       <h1 className="text-[86px] my-[40px]">Recognition & Achievements</h1>
-      <p className="text-[34px] font-extralight text-center  w-full h-full">
-        Our commitment to meaningful innovation has earned <br />
-        recognition at both regional and national levels. These <br />
-        achievements validate our vision and fuel our passion to <br />
-        continue delivering excellence.
+      <p className="text-[34px] font-thin leading-tight text-center max-w-5xl mx-auto">
+        Our commitment to meaningful innovation has earned recognition at both
+        regional and national levels. These achievements validate our vision and
+        fuel our passion to continue delivering excellence.
       </p>
-      <div className="flex flex-row w-full h-full gap-10  justify-center items-center mt-[35vh]">
-        <div className="flex flex-col text-left gap-8 w-[50%]">
-            <h1 className="text-[#ABFA54] text-[54px] font-semibold leading-tight">
-                National Level Winner - <br />
-                P2MW 2025
+
+      {achievements.map((item, index) => (
+        <div
+          key={item.id}
+          className={`flex flex-col md:flex-row w-full gap-10 justify-center items-center mt-[20vh] ${
+            index % 2 === 1 ? "md:flex-row-reverse" : ""
+          }`}
+        >
+          {/* Text */}
+          <div className="flex flex-col text-left gap-6 w-full md:w-1/2 px-6">
+            <h1 className="text-[#ABFA54] text-[42px] md:text-[50px] font-semibold leading-tight">
+              {item.title}
             </h1>
-            <h2 className="text-[30px] font-thin">
-                <strong className="font-bold">Penyelenggara:</strong> Ministry of Education, <br />
-                Culture, Research, and Technology
+            <h2 className="text-[24px] md:text-[30px] font-thin">
+              <strong className="font-bold">Penyelenggara:</strong>{" "}
+              {item.penyelenggara}
             </h2>
-            <p className="text-[30px] font-thin">
-                Recognized as one of Indonesia&apos;s most <br />
-                impactful student enterprises, validating <br />
-                our business model and technology <br />
-                solutions on a national scale. 
+            <p className="text-[20px] md:text-[28px] font-light">
+              {item.description}
             </p>
+          </div>
+
+          {/* Image */}
+          <div className="w-[450px] h-[600px] relative rounded-2xl overflow-hidden">
+            <Image
+              src={item.imageUrl}
+              alt={item.title}
+              fill
+              className="object-cover rounded-2xl"
+            />
+          </div>
         </div>
-        <div className="w-[500px] h-[660px] relative p-4 py-[40px]  rounded-2xl">
-            <Image src={achievement1} alt="achievement 1" layout="fill" objectFit="cover" className="rounded-2xl"/>
-        </div>
-      </div>
-      <div className="flex flex-row w-full h-full gap-10  justify-center items-center mt-[35vh]">
-        <div className="w-[500px] h-[660px] relative p-4 py-[40px]  rounded-2xl">
-            <Image src={achievement2} alt="achievement 1" layout="fill" objectFit="cover" className="rounded-2xl"/>
-        </div>
-        <div className="flex flex-col text-left gap-8 w-[50%]">
-            <h1 className="text-[#ABFA54] text-[54px] font-semibold leading-tight">
-                Winner of the Student <br />
-                Entrepreneurship <br />
-                Program (PKKM) Itenas
-            </h1>
-            <h2 className="text-[30px] font-thin">
-                <strong className="font-bold">Penyelenggara:</strong> National Institute of <br />
-                Technology (Itenas)
-            </h2>
-            <p className="text-[30px] font-thin">
-                An early achievement that proved the <br />
-                viability and innovation of Arthaloka&apos;s <br />
-                business concept at the institutional level. 
-            </p>
-        </div>
-        
-      </div>
+      ))}
     </div>
   );
 };

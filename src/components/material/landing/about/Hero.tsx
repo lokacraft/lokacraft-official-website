@@ -7,7 +7,7 @@ function Hero() {
   const words = `Meet the Minds Behind`;
   return (
     <div className="w-full h-[140vh] relative flex flex-col items-start justify-center bg-gradient-to-b from-[#121212]/40 via-[#121212]/40 to-[#7400B8]/70">
-      <div className="text-center top-0 left-0 right-0 mt-[150px] absolute text-[94px] font-medium leading-non w-full">
+      <div className="text-center top-0 left-0 right-0 mt-[150px] absolute text-[90px] font-medium leading-none w-full">
         Meet The Minds Behind <br />
         <span className="bg-gradient-to-r from-[#ABFA54] to-[#7400B8] text-transparent bg-clip-text">
           Arthaloka

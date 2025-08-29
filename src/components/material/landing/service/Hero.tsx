@@ -4,7 +4,7 @@ import React from "react";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 
 const motto = (
-  <div className="leading-[80px] text-[#EAEAEA] text-[84px] font-normal">
+  <div className="leading-[80px] text-[#EAEAEA] text-[82px] font-normal">
     Comprehensive <br />
     Technology Service for <br />
     <span className="bg-gradient-to-r from-[#ABFA54] to-[#7400B8] text-transparent bg-clip-text">
@@ -14,7 +14,7 @@ const motto = (
 );
 
 const desc = (
-  <div className="text-white text-center font-thin text-[38px] mt-[50px]">
+  <div className="text-white text-center font-thin text-[36px] mt-[50px]">
     From website development to AI/ML implementation, we provide <br />
     integrated digital solutions designed to drive your business <br />
     growth and efficiency.

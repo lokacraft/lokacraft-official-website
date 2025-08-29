@@ -9,7 +9,7 @@ function ContactService() {
     <ParallaxBanner className="aspect-[2/1] w-screen h-[55vh]">
       <div className="absolute inset-0 flex flex-col px-[15vh] items-center justify-center gap-y-12 p-6 bg=[#121212] border-y border-y-[#ABFA54]">
         <h1 className="text-[82px] 2xl:text-8xl font-semibold leading-none text-center 2xl:text-left bg-gradient-to-r from-[#ABFA54] to-[#7400B8] text-transparent bg-clip-text">
-          Having a Digital Challenge That <br />
+          Have a Digital Challenge That <br />
           Needs Solving?
         </h1>
         <div className="flex items-center justify-center w-full gap-x-5 flex-row">
@@ -25,7 +25,7 @@ function ContactService() {
 
               {/* --- KONTEN TEKS --- */}
               {/* Diberi 'relative' agar berada di atas lapisan gradasi hover */}
-              <h2 className="relative text-[46px] font-normal">Get Started</h2>
+              <h2 className="relative text-[38px] font-light">Get Started</h2>
             </div>
           </div>
           {/* button 2 */}
@@ -40,7 +40,7 @@ function ContactService() {
 
               {/* --- KONTEN TEKS --- */}
               {/* Diberi 'relative' agar berada di atas lapisan gradasi hover */}
-              <h2 className="relative text-[46px] font-normal">Contact Us</h2>
+              <h2 className="relative text-[38px] font-light">Contact Us</h2>
             </div>
           </div>
         </div>
